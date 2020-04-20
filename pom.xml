@@ -10,7 +10,7 @@
 
     <dependencies>
 
-        <!-- JAVALIN DEPENDENCY -->
+        <!-- JAVALIN DEPENDENCIES -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -30,6 +30,13 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>3.0.9.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.5.0</version>
         </dependency>
 
     </dependencies>
