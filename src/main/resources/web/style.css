@@ -24,47 +24,60 @@
 /* food item */
 .item
 {
-    margin: 0;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
+    width: 24%;
+    float: left;
+    display: inline-block;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 .5% 35px;
 }
 
-#box
+.container-item
+{
+    position: fixed;
+    top: 35%;
+    left: 25%;
+    right: 25%;
+    width: 500px;
+    border: 15px solid green;
+    padding: 50px;
+    margin: 0;
+    scroll-behavior: auto;
+}
+
+.contain-item .box
 {
     z-index: 10;
 }
 
-#status
+.contain-item .status
 {
     position: absolute;
-    top: 10%;
-    left: 10%;
+    top: 32%;
+    left: 17%;
     z-index: 20;
 }
 
-#text
+.contain-item #text
 {
     position: absolute;
-    top: 10%;
-    left: 18%;
+    top: 33%;
+    left: 17%;
     z-index: 30;
 }
 
-#amount
+.contain-item #amount
 {
     position: absolute;
-    top: 30%;
-    left: 40%;
+    top: 39%;
+    left: 17%;
     z-index: 30;
 }
 
-#date
+.contain-item #date
 {
     position: absolute;
-    top: 50%;
-    left: 18%;
+    top: 45%;
+    left: 17%;
     z-index: 30;
 }
