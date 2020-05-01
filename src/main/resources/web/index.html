@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Fridge</title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
@@ -21,6 +22,14 @@
             <form class="search" action="#">
                 <input type="text" placeholder="..." name="search">
                 <button type="submit">Søg<i class="searching"></i></button>
+                <button id="modal-button">Tilføj fødevare</button>
+                <div id="modal-window" class="modal-window">
+                    <div class="modal-contains">
+                        <span class="close">&times;</span>
+                        <p>test</p>
+                    </div>
+
+                </div>
             </form>
         <div class="container-item" style="overflow-y: scroll">
             <div id="hej">
@@ -43,9 +52,7 @@
             <img id="slider-right" src="images/arrow-bar-right.png" height="400" width="30" onclick="" />
             <div id="box-right">
             <img  src="images/boks-til-højre.png" height="400" width="250">
-            <div>
-                <img class="delete-box" src="images/box.png" height="70">
-            </div>
+            <img class="delete-box" src="images/box.png" height="70">
             </div>
         </div>
     </div>
