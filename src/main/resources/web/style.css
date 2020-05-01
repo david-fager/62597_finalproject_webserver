@@ -89,6 +89,7 @@
     position: fixed;
     top: 28%;
     right: 0;
+    z-index: 10;
 }
 
 #slider-right
@@ -96,6 +97,12 @@
     position: absolute;
     top: 28%;
     right: 0;
+    z-index: 40;
+}
+
+#box-right .delete-box
+{
+    position: absolute;
     z-index: 30;
 }
 
