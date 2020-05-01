@@ -1,17 +1,18 @@
 $(function () {
 
-    $("#asd").click(function () {
-        console.log("Trykket på!")
+    $("#button-new-box").click(function () {
+        console.log("Tilføjet boks!")
 
-        $("#hej").append("" +
+        $("#items").append("" +
             "<div class=\"item\">\n" +
-            "    <img class=\"box\" src=\"images/box.png\" height=\"80\">\n" +
-            "    <img class=\"status\" src=\"images/green.png\">\n" +
-            "    <p class=\"text\">Tomater</p>\n" +
-            "    <p class=\"amount\">x2</p>\n" +
-            "    <p class=\"date\">23/04/20</p>\n" +
+            "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
+            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            "    <div class=\"box-content\">\n" +
+            "        <p>Tomater</p>\n" +
+            "        <p>x2</p>\n" +
+            "        <p>23/04/20</p>\n" +
+            "    </div>\n" +
             "</div>");
-
     });
 
 
