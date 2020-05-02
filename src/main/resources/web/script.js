@@ -31,6 +31,20 @@ $(function () {
 // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
+    btn.addEventListener('click',openModal);
+
+    span.addEventListener('click',closeModal);
+
+    function openModal() {
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    /*
+
 // When the user clicks the button, open the modal
     btn.onclick = function() {
         modal.style.display = "block";
@@ -47,5 +61,6 @@ $(function () {
             modal.style.display = "none";
         }
     }
+    */
 
 });

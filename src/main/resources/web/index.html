@@ -22,11 +22,29 @@
             <form class="search" action="#">
                 <input type="text" placeholder="..." name="search">
                 <button type="submit">Søg<i class="searching"></i></button>
+
                 <button id="modal-button">Tilføj fødevare</button>
                 <div id="modal-window" class="modal-window">
                     <div class="modal-contains">
                         <span class="close">&times;</span>
-                        <p>test</p>
+                        <h1 class="test">Tilføj fødevare</h1>
+                        <p>___________________________</p>
+                        <label>Fødevarenavn:</label>
+                        <input type="text" id="food-name">
+                        <br>
+                        <label>Antal:</label>
+                        <input type="number" id="amount">
+                        <br>
+                        <label>Type:</label>
+                        <select id="type">
+                            <option value="vegetable">Grøntsag</option>
+                            <option value="fruit">Frugt</option>
+                            <option value="dairy-products">Mælke produkter</option>
+                            <option value="meat">Kød</option>
+                            <option value="other">Andet</option>
+                        </select>
+                        <p>Holdbarhedsdato</p>
+                        <input type="date" id="date">
                     </div>
 
                 </div>
