@@ -1,8 +1,89 @@
-
 body
 {
+    width: calc(100vw - (100vw - 100%));
+    height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
 }
+
+.page-management {
+    width: 100%;
+    height: 100%;
+}
+
+.top {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.grid {
+    /* POSITIONING */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    top: 40vh;
+    max-height: 60vh;
+
+    /* GRID STRUCTURING */
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    justify-content: center;
+    grid-row-gap: 0;
+
+    overflow-y: scroll;
+}
+
+.item {
+    /* SET SIZE DEPENDING ON VIEWPORT */
+    position: relative;
+    width: 5vw;
+    height: 5vw;
+    min-width: 100px;
+    min-height: 100px;
+
+    /* SPACING AROUND ITEM */
+    margin: 1vw;
+}
+
+.item .box-visual {
+    /* STRETCH ENTIRE BOX */
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.item .box-status {
+    /* POS TOP RIGHT OF BOX */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 15%;
+    margin-top: 6%;
+    margin-left: 6%;
+}
+
+.item .box-content {
+    /* POS TEXT IN THE MIDDLE OF BOX*/
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+.item .box-content p {
+    /* ACTUAL TEXT MIDDLE POS */
+    text-align: center;
+    font-size: 0.7em;
+    margin: 0;
+}
+
+
+
 
 
 
@@ -25,8 +106,7 @@ body
     transform: translate(-50%, -50%)
 }
 
-
-/* food item */
+/*
 .item
 {
     width: 24%;
@@ -89,6 +169,7 @@ body
     z-index: 30;
     font-size: smaller;
 }
+*/
 
 /* box to the right */
 #box-right

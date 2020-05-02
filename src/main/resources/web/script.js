@@ -1,17 +1,20 @@
 $(function () {
 
-    $("#asd").click(function () {
-        console.log("Trykket på!")
+    $("#button-new-box").click(function () {
+        console.log("Tilføjet boks!")
 
-        $("#hej").append("" +
+        $(".grid").append("" +
             "<div class=\"item\">\n" +
-            "    <img class=\"box\" src=\"images/box.png\" height=\"70\">\n" +
-            "    <img class=\"status\" src=\"images/green.png\">\n" +
-            "    <p class=\"text\">Tomater</p>\n" +
-            "    <p class=\"amount\">x2</p>\n" +
-            "    <p class=\"date\">23/04/20</p>\n" +
+            "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
+            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            "    <div class=\"box-content\">\n" +
+            "        <div class=\"content-text\">\n" +
+            "            <p>PLACEHOLDER</p>\n" +
+            "            <p>999 tilbage</p>\n" +
+            "            <p>Udl.: 00/00/00</p>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
             "</div>");
-
     });
 
     $("#slider-right").click(function () {
