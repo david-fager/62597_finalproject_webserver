@@ -28,7 +28,7 @@ body
 
     /* GRID STRUCTURING */
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto;
     justify-content: center;
     grid-row-gap: 0;
 
@@ -38,10 +38,10 @@ body
 .item {
     /* SET SIZE DEPENDING ON VIEWPORT */
     position: relative;
-    width: 5vw;
-    height: 5vw;
-    min-width: 100px;
-    min-height: 100px;
+    width: 4vw;
+    height: 4vw;
+    min-width: 80px;
+    min-height: 80px;
 
     /* SPACING AROUND ITEM */
     margin: 1vw;
@@ -78,7 +78,7 @@ body
 .item .box-content p {
     /* ACTUAL TEXT MIDDLE POS */
     text-align: center;
-    font-size: 0.7em;
+    font-size: 0.6em;
     margin: 0;
 }
 
