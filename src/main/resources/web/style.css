@@ -13,17 +13,84 @@ body
     height: 100%;
 }
 
-.page-login .login-top
+.page-login .center
 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.page-login .center img
+{
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.page-login .center .login-text-container
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 70%;
+}
+
+.page-login .center .login-text-container h3
+{
+    font-size: 1.5em;
+    margin: 0;
     text-align: center;
 }
 
+.page-login .center .login-text-container label
+{
+    display: block;
+    margin: 25px 0 5px 10px
+}
+
+.page-login .center .login-text-container input
+{
+    border-width: 1.5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border-color: black;
+}
+
+.page-login .center .login-text-container h6
+{
+    margin: 10px 0 20px 0;
+    color: dodgerblue;
+}
+
+.page-login .center .login-text-container h6:hover
+{
+    margin: 10px 0 20px 0;
+    color: dodgerblue;
+}
+
+.page-login .center .login-text-container button
+{
+    border-radius: 10px;
+    background-color: dodgerblue;
+    border-width: 0;
+    height: 40px;
+}
+
+.page-login .center .login-text-container button:hover
+{
+
+}
+
+
+/* TODO: fjern hvis ikke længere nødvendigt
 .page-login .login {
     position: absolute;
-    padding: 12px;
     top: 40%;
-    right: 50%;
-    width: 31%;
     transform: translate(-50%, -50%);
 }
 
@@ -41,7 +108,7 @@ body
     width: 250px;
 
 }
-
+*/
 
 /* page-management*/
 
