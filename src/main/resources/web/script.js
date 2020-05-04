@@ -1,5 +1,15 @@
 $(function () {
 
+    $(".page-login").show();
+    $(".page-management").hide();
+
+    $("#skift").click(function () {
+        $(".page-management").show();
+    });
+
+
+
+
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
 
@@ -30,11 +40,13 @@ $(function () {
 
 // Get the button that opens the modal
     var btn = document.getElementById("modal-button");
+    var forgot_btn = document.getElementById("open-forgot-password");
 
 // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
     btn.addEventListener('click',openModal);
+    forgot_btn.addEventListener('click',openModal);
 
     span.addEventListener('click',closeModal);
 

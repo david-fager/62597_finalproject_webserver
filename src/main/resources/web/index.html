@@ -10,6 +10,45 @@
 </head>
 <body>
 
+<div class="page-login">
+
+    <button id="skift">skift</button>
+    <div class="login-top">
+    <img src="images/logo.png" height="60">
+    </div>
+    <div class="login">
+        <img class="login-bg" src="images/login-background.png">
+        <div class="login-text-container">
+            <h3 style="text-align: center">Velkommen</h3>
+            <label>Brugernavn</label>
+            <br>
+            <input type="text" id="brugernavn">
+            <br>
+            <br>
+            <label>Adgangskode</label>
+            <br>
+            <input type="password" id="password">
+            <br>
+            <br>
+            <button id="open-forgot-password">Glemt adgangskode?</button>
+            <br>
+            <br>
+            <div class="modal-window"> <!-- TODO modalvindue -->
+                <div class="modal-contains">
+                    <span class="close">&times;</span>
+                </div>
+            </div>
+
+
+            <button class="button">Tilføj fødevare</button>
+        </div>
+    </div>
+
+
+
+
+</div>
+
 <div class="page-management">
 
     <div> <!--TODO: sidebar 1-->
@@ -34,14 +73,14 @@
     <div id="modal-window" class="modal-window"> <!-- TODO modalvindue -->
         <div class="modal-contains">
             <span class="close">&times;</span>
-            <h1 class="test">Tilføj fødevare</h1>
-            <p>___________________________</p>
+            <h1 id="modal-titel" >Tilføj fødevare</h1>
+            <p>_____________________________</p>
             <label>Fødevarenavn:</label>
             <input type="text" id="food-name">
             <br>
+            <br>
             <label>Antal:</label>
             <input type="number" id="amount">
-            <br>
             <label>Type:</label>
             <select id="type">
                 <option value="vegetable">Grøntsag</option>
@@ -52,6 +91,9 @@
             </select>
             <p>Holdbarhedsdato</p>
             <input type="date" id="date">
+            <br>
+            <br>
+            <button class="button">Tilføj fødevare</button>
         </div>
 
     </div>
