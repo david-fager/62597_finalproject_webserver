@@ -1,58 +1,51 @@
-body
-{
+body {
     width: calc(100vw - (100vw - 100%));
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
 
-/* page-login*/
-.page-login
-{
+
+/* page-login */
+.page-login {
     width: 100%;
     height: 100%;
 }
 
-.page-login .center
-{
+.page-login .center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.page-login .center img
-{
+.page-login .center img {
     display: block;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.page-login .center .login-text-container
-{
+.page-login .center .login-text-container {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 70%;
 }
 
-.page-login .center .login-text-container h3
-{
+.page-login .center .login-text-container h3 {
     font-size: 1.5em;
     margin: 0;
     text-align: center;
 }
 
-.page-login .center .login-text-container label
-{
+.page-login .center .login-text-container label {
     display: block;
     margin: 25px 0 5px 10px
 }
 
-.page-login .center .login-text-container input
-{
+.page-login .center .login-text-container input {
     border-width: 1.5px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -61,57 +54,31 @@ body
     border-color: black;
 }
 
-.page-login .center .login-text-container h6
-{
+.page-login .center .login-text-container h6 {
     margin: 10px 0 20px 0;
     color: dodgerblue;
 }
 
-.page-login .center .login-text-container h6:hover
-{
+.page-login .center .login-text-container h6:hover {
     margin: 10px 0 20px 0;
     color: dodgerblue;
 }
 
-.page-login .center .login-text-container button
-{
+.page-login .center .login-text-container button {
     border-radius: 10px;
     background-color: dodgerblue;
     border-width: 0;
     height: 40px;
+    width: 100%;
+    color: white;
 }
 
-.page-login .center .login-text-container button:hover
-{
+.page-login .center .login-text-container button:hover {
 
 }
 
-
-/* TODO: fjern hvis ikke længere nødvendigt
-.page-login .login {
-    position: absolute;
-    top: 40%;
-    transform: translate(-50%, -50%);
-}
-
-.page-login  .login .login-bg
-{
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 400px;
-}
-
-.page-login  .login .login-text-container
-{
-    width: 250px;
-
-}
-*/
 
 /* page-management*/
-
 .page-management {
     width: 100%;
     height: 100%;
@@ -127,12 +94,6 @@ body
 }
 
 .page-management .middle .top {
-    /*
-    position: absolute;
-    top: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    */
     text-align: center;
 }
 
@@ -143,14 +104,6 @@ body
 
 .page-management .middle .grid {
     /* POSITIONING */
-    /*
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60vw;
-    top: 20%;
-    max-height: 70vh;
-    */
     margin-top: 2%;
     width: 100%;
     max-height: 70vh;
@@ -212,52 +165,42 @@ body
 }
 
 
-
-
-
-
-
-
-
 /* box to the right */
-#box-right
-{
+#box-right {
     position: fixed;
     top: 28%;
     right: 0;
     z-index: 10;
 }
 
-#slider-right
-{
+#slider-right {
     position: absolute;
     top: 28%;
     right: 0;
     z-index: 20;
 }
 
-#box-right .delete-box
-{
+#box-right .delete-box {
     position: absolute;
     top: 20%;
     z-index: 30;
 }
 
 /* box to the left */
-#box-left
-{
+#box-left {
     position: fixed;
     top: 28%;
     left: 0;
     z-index: 10;
 }
-#slider-left
-{
+
+#slider-left {
     position: absolute;
     top: 28%;
     left: 0;
     z-index: 20;
 }
+
 
 /* Scrollbar */
 /* width */
@@ -283,11 +226,6 @@ body
 }
 
 
-
-
-
-
-
 /* modal */
 /* The Modal (background) */
 .modal-window {
@@ -299,7 +237,7 @@ body
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
@@ -312,23 +250,19 @@ body
     width: 20%;
 }
 
-#food-name, #date
-{
+#food-name, #date {
     width: 100%;
 }
 
-#amount
-{
+#amount {
     width: 20%;
 }
 
-#type
-{
+#type {
     width: 40%;
 }
 
-.button
-{
+.button {
     color: #F4F4F4;
     background-color: #9B9A9A;
     width: 100%;
@@ -342,26 +276,13 @@ body
     font-size: 28px;
 }
 
-.close:hover, .close:focus
-{
+.close:hover, .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
-#modal-titel
-{
+#modal-titel {
     color: #3F3E3E;
     text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-

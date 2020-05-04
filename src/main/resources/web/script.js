@@ -3,12 +3,10 @@ $(function () {
     $(".page-login").show();
     $(".page-management").hide();
 
-    $("#skift").click(function () {
+    $("#button-login").click(function () {
+        $(".page-login").hide();
         $(".page-management").show();
     });
-
-
-
 
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
@@ -28,11 +26,11 @@ $(function () {
     });
 
     $("#slider-right").click(function () {
-        $("#box-right").animate({width:'toggle'},350);
+        $("#box-right").animate({width: 'toggle'}, 350);
     });
 
     $("#slider-left").click(function () {
-        $("#box-left").animate({width:'toggle'},350);
+        $("#box-left").animate({width: 'toggle'}, 350);
     });
 
     // Get the modal
@@ -45,10 +43,10 @@ $(function () {
 // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    btn.addEventListener('click',openModal);
-    forgot_btn.addEventListener('click',openModal);
+    btn.addEventListener('click', openModal);
+    forgot_btn.addEventListener('click', openModal);
 
-    span.addEventListener('click',closeModal);
+    span.addEventListener('click', closeModal);
 
     function openModal() {
         modal.style.display = 'block';

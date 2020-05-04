@@ -5,15 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Run {
-    private static DateFormat df = new SimpleDateFormat("[dd-MM-yyyy HH:mm:ss] ");
+    private static DateFormat df = new SimpleDateFormat("[dd-MM-yyyy HH:mm:ss]");
     private static Calendar calendar = Calendar.getInstance();
 
     public static void main(String[] args) {
-        System.out.println(df.format(calendar.getTimeInMillis()) + "Starting server");
+        System.out.println(df.format(calendar.getTimeInMillis()) + " Starting server");
         Server server = new Server();
         server.initialize();
         printASCII();
-        System.out.println(df.format(calendar.getTimeInMillis()) + "Server started successfully");
+        System.out.println(df.format(calendar.getTimeInMillis()) + " Server started");
     }
 
     private static void printASCII() {
