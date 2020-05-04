@@ -36,16 +36,13 @@ $(function () {
     // Get the modal
     var modal = document.getElementById("modal-window");
 
-// Get the button that opens the modal
+    // Get the button that opens the modal
     var btn = document.getElementById("modal-button");
-    var forgot_btn = document.getElementById("open-forgot-password");
 
-// Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
     btn.addEventListener('click', openModal);
-    forgot_btn.addEventListener('click', openModal);
-
     span.addEventListener('click', closeModal);
 
     function openModal() {
@@ -54,6 +51,21 @@ $(function () {
 
     function closeModal() {
         modal.style.display = 'none';
+    }
+
+    var forgot_modal = document.getElementById("forgot-modal-window");
+    var forgot_btn = document.getElementById("open-forgot-password");
+    var forgot_span = document.getElementsByClassName("forgot-close")[0];
+
+    forgot_btn.addEventListener('click', openForgotModal);
+    forgot_span.addEventListener('click', closeForgotModal);
+
+    function openForgotModal() {
+        forgot_modal.style.display = 'block';
+    }
+
+    function closeForgotModal() {
+        forgot_modal.style.display = 'none';
     }
 
     /*
