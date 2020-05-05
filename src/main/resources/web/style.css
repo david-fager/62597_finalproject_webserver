@@ -275,7 +275,7 @@ body {
     left: 50%;
 }
 
-.page-management .middle .grid .item .box-content p {
+.page-management .middle .grid .item .box-content h5 {
     /* ACTUAL TEXT MIDDLE POS */
     text-align: center;
     font-size: 0.6em;
@@ -298,19 +298,6 @@ body {
     z-index: 20;
 }
 
-#box-right #box-right-contains{
-    top: 0;
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-}
-
-#box-right #box-right-contains .delete-box {
-    position: absolute;
-    top: 2%;
-    z-index: 30;
-}
-
 /* box to the left */
 #box-left {
     position: fixed;
@@ -324,6 +311,21 @@ body {
     top: 28%;
     left: 0;
     z-index: 20;
+}
+
+
+#box-left #box-left-contains{
+    top: 0;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+}
+
+#box-left #box-left-contains #select-date {
+    position: absolute;
+    top: 2%;
+    left: 40px;
+    z-index: 30;
 }
 
 

@@ -26,9 +26,30 @@ $(function () {
             "</div>");
     });
 
+
+
+    $("#select-date").oninput(function () {
+        var date = document.querySelector('input[type="date"]');
+        console.log(date);
+
+        $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
+            "<div id=\"item-calendar\">\n" +
+            "<p id=\"item-name-calendar\">Tomat</p>\n" +
+            "<p id=\"item-amount-calendar\">2 tilbage</p>\n" +
+            "</div>\n"
+        );
+
+    });
+
+    document.getElementById('select-date').addEventListener('change', function() {
+        console.log(this.value);
+    });
+
+    /*
     $("#slider-right").click(function () {
         $("#box-right").animate({width: 'toggle'}, 350);
     });
+    */
 
     $("#slider-left").click(function () {
         $("#box-left").animate({width: 'toggle'}, 350);
