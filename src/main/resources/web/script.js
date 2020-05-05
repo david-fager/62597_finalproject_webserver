@@ -15,11 +15,12 @@ $(function () {
             "<div class=\"item\">\n" +
             "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
             "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick='this.parentNode.remove()'>\n" +
             "    <div class=\"box-content\">\n" +
             "        <div class=\"content-text\">\n" +
-            "            <p>PLACEHOLDER</p>\n" +
-            "            <p>999 tilbage</p>\n" +
-            "            <p>Udl.: 00/00/00</p>\n" +
+            "            <h5 class\"item-name\">PLACEHOLDER</h5>\n" +
+            "            <h5 class=\"item-amount\">999 tilbage</h5>\n" +
+            "            <h5 class=\"item-dato\">Udl.: 00/00/00</h5>\n" +
             "        </div>\n" +
             "    </div>\n" +
             "</div>");

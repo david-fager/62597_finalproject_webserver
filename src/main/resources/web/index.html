@@ -25,17 +25,21 @@
             <label>Adgangskode</label>
             <input type="password" id="password">
             <h6 id="open-forgot-password">Glemt adgangskode?</h6>
-
-            <div id="forgot-modal-window" class="forgot-modal-window"> <!-- TODO modalvindue -->
-                <div class="forgot-modal-contains">
-                    <span class="forgot-close">&times;</span>
-
-                    <h1 id="forgot-modal-titel">Glemt dit kodeord?</h1>
-
-                </div>
-            </div>
-
             <button id="button-login">Log på</button>
+        </div>
+    </div>
+
+    <div id="forgot-modal-window" class="forgot-modal-window"> <!-- TODO modalvindue -->
+        <div class="forgot-modal-contains">
+            <span class="forgot-close">&times;</span>
+
+            <h1 id="forgot-modal-titel">Glemt dit kodeord?</h1>
+            <h5>___________________________________________________</h5>
+            <label>Skriv brugernavn:</label>
+            <input type="text" id="email">
+            <h6>*Et nyt kodeord vil blive sendt til din mail</h6>
+            <button id="button-send-email">Send</button>
+
         </div>
     </div>
 
@@ -95,7 +99,10 @@
         <img id="slider-right" src="images/arrow-bar-right.png" height="400" width="30" onclick=""/>
         <div id="box-right">
             <img src="images/boks-til-højre.png" height="400" width="250">
+            <div id="box-right-contains">
+                <h5> Trash </h5>
             <img class="delete-box" src="images/box.png" height="70">
+            </div>
         </div>
     </div>
 
