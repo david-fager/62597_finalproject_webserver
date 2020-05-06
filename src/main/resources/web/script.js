@@ -2,10 +2,33 @@ $(function () {
 
     $(".page-login").show();
     $(".page-management").hide();
+    $(".user-management").hide();
 
     $("#button-login").click(function () {
         $(".page-login").hide();
         $(".page-management").show();
+    });
+
+
+    $(".dropdown-button").click(function () {
+            var dropdown = document.getElementsByClassName("dropdown-contains");
+            var i;
+            for (i = 0; i < dropdown.length; i++) {
+                var openDropdown = dropdown[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+    });
+
+    $(".profile").click(function () {
+        $(".page-login").hide();
+        $(".page-management").hide();
+        $(".user-management").show();
+    });
+
+    $(".logud").click(function () {
+        //TODO logud  function
     });
 
     $("#button-new-box").click(function () {
