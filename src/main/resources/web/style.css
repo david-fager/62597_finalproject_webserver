@@ -194,10 +194,10 @@ body {
 }
 
 .page-management .user-dropdown button {
-    background-color: white;
+    background-color: #efefef;
     border: none;
     height: 25px;
-    color: black;
+    color: #232222;
 }
 
 .page-management .user-dropdown .dropdown-contains {
