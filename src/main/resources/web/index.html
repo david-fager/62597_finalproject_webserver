@@ -34,7 +34,6 @@
             <span class="forgot-close">&times;</span>
 
             <h1 id="forgot-modal-titel">Glemt dit kodeord?</h1>
-            <h5>___________________________________________________</h5>
             <label>Skriv brugernavn:</label>
             <input type="text" id="email">
             <h6>*Et nyt kodeord vil blive sendt til din mail</h6>
@@ -83,7 +82,6 @@
         <div class="modal-contains">
             <span class="close">&times;</span>
             <h1 id="modal-titel">Tilføj fødevare</h1>
-            <p>_____________________________</p>
             <label>Fødevarenavn:</label>
             <input type="text" id="food-name">
             <br>
@@ -98,11 +96,13 @@
                 <option value="meat">Kød</option>
                 <option value="other">Andet</option>
             </select>
-            <p>Holdbarhedsdato</p>
+            <br>
+            <br>
+            <label>Holdbarhedsdato</label>
             <input type="date" id="date">
             <br>
             <br>
-            <button class="button">Tilføj fødevare</button>
+            <button class="add-food-item">Tilføj fødevare</button>
         </div>
 
     </div>
@@ -110,7 +110,7 @@
     <div class="user-dropdown">
         <button onclick="" class="dropdown-button">Username</button>
         <div id="user-dropdown" class="dropdown-contains">
-            <h5 class="profile">Profil</h5>
+            <h5 class="settings">Settings</h5>
             <h5 class="logud">Log ud</h5>
         </div>
     </div>
@@ -135,8 +135,28 @@
         <div class="top"> <!-- Contains logo and search -->
             <img src="images/logo.png" height="60">
         </div>
+        <br>
+        <br>
+        <div class="settings">
+        <h3>Settings</h3>
+        <form action="javascript:changePassword()">
+            <h5>Skift adgangskode</h5>
+            <label >Skriv gamle kode:</label>
+            <input type="text" name="oldPassword" id="oldpassword" required>
+            <br>
+            <br>
+            <label>Skriv ny kode:</label>
+            <br>
+            <input type="password" name="newPassword" id="newpassword" required>
+            <br>
+            <br>
+            <button class="change-password">Ændre</button>
+            <br>
+            <br>
+            <button class="annuller">Annuller</button>
+        </form>
     </div>
-
+    </div>
 </div>
 
 </body>

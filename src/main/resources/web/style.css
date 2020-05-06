@@ -122,12 +122,6 @@ body {
     border-color: #919290;
 }
 
-.forgot-modal-contains h5
-{
-    text-align: center;
-    color: #dddadc;
-}
-
 .forgot-modal-contains h6
 {
     font-size: x-small;
@@ -429,7 +423,25 @@ body {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 20%;
+    width: 30%;
+}
+
+.modal-contains input {
+    border-width: 1.5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+    border-color: #919290;
+}
+
+.modal-contains select {
+    border-width: 1.5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+    border-color: #919290;
 }
 
 #food-name, #date {
@@ -444,11 +456,19 @@ body {
     width: 40%;
 }
 
-.button {
-    color: #F4F4F4;
-    background-color: #9B9A9A;
-    width: 100%;
+.modal-contains button {
+    border-radius: 10px;
+    background-color: #919290;
+    border-width: 0;
     height: 30px;
+    width: 100%;
+    color: white;
+}
+
+.modal-contains button:hover {
+    background-color: #f7f8f9;
+    color: #919290;
+    cursor: pointer;
 }
 
 /* The Close Button */
@@ -491,4 +511,68 @@ body {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 4%;
+}
+
+.user-management .middle .settings {
+    display: block;
+    width: 25vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 4%;
+}
+
+.user-management .middle .settings h3 {
+    font-size: x-large;
+    text-align: center;
+    color: #403f3f;
+}
+
+.user-management .middle .settings h5 {
+    font-size: medium;
+    text-align: center;
+    color: #403F3F;
+}
+
+.user-management .middle .settings input {
+    border-width: 1.5px;
+    border-radius: 7px;
+    box-sizing: border-box;
+    border-color: #919290;
+    height: 30px;
+    width: 100%;
+}
+
+.user-management .middle .settings button
+{
+    border-radius: 10px;
+    background-color: #919290;
+    border-width: 0;
+    height: 30px;
+    width: 100%;
+    color: white;
+}
+
+.user-management .middle .settings button:hover
+{
+    background-color: #f7f8f9;
+    color: #919290;
+    cursor: pointer;
+}
+
+.user-management .middle .settings .annuller
+{
+    border-radius: 10px;
+    background-color: #c6c7c5;
+    border-width: 0;
+    height: 30px;
+    width: 100%;
+    color: white;
+}
+
+.user-management .middle .settings .annuller:hover
+{
+    background-color: #f7f8f9;
+    color: #c6c7c5;
+    cursor: pointer;
 }

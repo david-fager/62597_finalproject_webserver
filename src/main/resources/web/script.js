@@ -10,29 +10,62 @@ $(function () {
     });
 
 
+    /* ---- page login ---- */
+
+    //TODO check users information inorder to log on
+
+    /* -- Forgot password modal -- */
+
+    var forgot_modal = document.getElementById("forgot-modal-window");
+    var forgot_btn = document.getElementById("open-forgot-password");
+    var forgot_span = document.getElementsByClassName("forgot-close")[0];
+
+    forgot_btn.addEventListener('click', openForgotModal);
+    forgot_span.addEventListener('click', closeForgotModal);
+
+    function openForgotModal() {
+        forgot_modal.style.display = 'block';
+    }
+
+    function closeForgotModal() {
+        forgot_modal.style.display = 'none';
+    }
+
+    //TODO get username, and send email via "send" button
+
+
+    /* ---- page management ---- */
+
+    /* -- Dropdown -- */
+
+    //TODO when user logged in, set "dropdown-button" to be the users username
+
     $(".dropdown-button").click(function () {
         $("#user-dropdown").toggle("show");
-        /*
-            var dropdown = document.getElementsByClassName("dropdown-contains");
-            var i;
-            for (i = 0; i < dropdown.length; i++) {
-                var openDropdown = dropdown[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        */
     });
 
-    $(".profile").click(function () {
+    $(".logud").click(function () {
+        document.cookie = "sessionID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "./";
+    });
+
+    $(".settings").click(function () {
         $(".page-login").hide();
         $(".page-management").hide();
         $(".user-management").show();
     });
 
-    $(".logud").click(function () {
-        //TODO logud  function
+    /* - Inside settings - */
+
+    $(".change-password").click(function () {
+        //TODO change password
     });
+
+    $(".annuller").click(function () {
+        //TODO go back to page management
+    });
+
+    /* -- grid food items -- */
 
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
@@ -52,35 +85,7 @@ $(function () {
             "</div>");
     });
 
-
-/*
-    $("#select-date").oninput(function () {
-        var date = document.querySelector('input[type="date"]');
-        console.log(date);
-
-        $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
-            "<div id=\"item-calendar\">\n" +
-            "<p id=\"item-name-calendar\">Tomat</p>\n" +
-            "<p id=\"item-amount-calendar\">2 tilbage</p>\n" +
-            "</div>\n"
-        );
-
-    });
-*/
-
-    document.getElementById('select-date').addEventListener('change', function() {
-        console.log($('#select-date').val());
-    });
-
-    /*
-    $("#slider-right").click(function () {
-        $("#box-right").animate({width: 'toggle'}, 350);
-    });
-    */
-
-    $("#slider-left").click(function () {
-        $("#box-left").animate({width: 'toggle'}, 350);
-    });
+    /* -- Add food items modal -- */
 
     // Get the modal
     var modal = document.getElementById("modal-window");
@@ -102,20 +107,49 @@ $(function () {
         modal.style.display = 'none';
     }
 
-    var forgot_modal = document.getElementById("forgot-modal-window");
-    var forgot_btn = document.getElementById("open-forgot-password");
-    var forgot_span = document.getElementsByClassName("forgot-close")[0];
+    //TODO make them connect - add food information to item and with "add-food-item" add item to grid list.
 
-    forgot_btn.addEventListener('click', openForgotModal);
-    forgot_span.addEventListener('click', closeForgotModal);
+    //TODO make search bar work + button
 
-    function openForgotModal() {
-        forgot_modal.style.display = 'block';
-    }
+/*
+    $("#select-date").oninput(function () {
+        var date = document.querySelector('input[type="date"]');
+        console.log(date);
 
-    function closeForgotModal() {
-        forgot_modal.style.display = 'none';
-    }
+        $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
+            "<div id=\"item-calendar\">\n" +
+            "<p id=\"item-name-calendar\">Tomat</p>\n" +
+            "<p id=\"item-amount-calendar\">2 tilbage</p>\n" +
+            "</div>\n"
+        );
+
+    });
+*/
+
+    //TODO Calendar
+    //---------------------------->
+    /*
+    $("#slider-right").click(function () {
+        $("#box-right").animate({width: 'toggle'}, 350);
+    });
+    */
+
+    $("#slider-left").click(function () {
+        $("#box-left").animate({width: 'toggle'}, 350);
+    });
+
+    document.getElementById('select-date').addEventListener('change', function() {
+        console.log($('#select-date').val());
+    });
+    //------------------------------>
+
+
+
+
+    //----------------------------------------------------End
+
+
+
 
     /*
 
@@ -136,5 +170,6 @@ $(function () {
         }
     }
     */
+
 
 });
