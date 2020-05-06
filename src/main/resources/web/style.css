@@ -328,6 +328,20 @@ body {
     z-index: 30;
 }
 
+#box-left #box-left-contains #date-grid {
+    position: fixed;
+    top: 2%;
+    left: 40px;
+    z-index: 40;
+}
+
+#box-left #box-left-contains #date-grid #item-calendar {
+    position: fixed;
+    top: 2%;
+    left: 40px;
+    z-index: 40;
+}
+
 
 /* Scrollbar */
 /* width */
