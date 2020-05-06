@@ -11,6 +11,8 @@ $(function () {
 
 
     $(".dropdown-button").click(function () {
+        $("#user-dropdown").toggle("show");
+        /*
             var dropdown = document.getElementsByClassName("dropdown-contains");
             var i;
             for (i = 0; i < dropdown.length; i++) {
@@ -19,6 +21,7 @@ $(function () {
                     openDropdown.classList.remove('show');
                 }
             }
+        */
     });
 
     $(".profile").click(function () {
