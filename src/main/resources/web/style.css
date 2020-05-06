@@ -208,10 +208,22 @@ body {
 
 .page-management .user-dropdown .dropdown-contains {
     display: none;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #919290;
+    border-radius: 0px 0px 10px 10px;
+    min-width: 40px;
     z-index: 1;
+    text-align: center;
+    padding: 1px;
+    color: white;
+}
+
+.page-management .user-dropdown .dropdown-contains h5:hover {
+    cursor: pointer;
+    color: #aeafad;
+}
+
+.page-management .user-dropdown .dropdown-contains .logud {
+    color: #c9cacb;
 }
 
 .page-management .user-dropdown .dropdown-contains .show {
@@ -455,4 +467,25 @@ body {
 #modal-titel {
     color: #3F3E3E;
     text-align: center;
+}
+
+
+/* User Management */
+.user-management {
+    width: 100%;
+    height: 100%;
+}
+
+.user-management .middle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 100vh;
+}
+
+.user-management .middle .top img {
+    margin-top: 4%;
+    margin-bottom: 4%;
 }
