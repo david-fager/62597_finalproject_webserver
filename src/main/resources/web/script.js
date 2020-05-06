@@ -27,7 +27,7 @@ $(function () {
     });
 
 
-
+/*
     $("#select-date").oninput(function () {
         var date = document.querySelector('input[type="date"]');
         console.log(date);
@@ -40,6 +40,7 @@ $(function () {
         );
 
     });
+*/
 
     document.getElementById('select-date').addEventListener('change', function() {
         console.log(this.value);
