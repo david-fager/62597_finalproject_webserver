@@ -486,6 +486,9 @@ body {
 }
 
 .user-management .middle .top img {
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 4%;
-    margin-bottom: 4%;
 }
