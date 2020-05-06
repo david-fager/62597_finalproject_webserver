@@ -315,28 +315,27 @@ body {
 
 
 #box-left #box-left-contains{
+    position: absolute;
+    box-sizing: border-box;
+    padding-left: 30px;
     top: 0;
-    padding: 10px;
     height: 100%;
     width: 100%;
 }
 
 #box-left #box-left-contains #select-date {
-    position: absolute;
     top: 2%;
     left: 40px;
     z-index: 30;
 }
 
 #box-left #box-left-contains #date-grid {
-    position: fixed;
     top: 2%;
     left: 40px;
     z-index: 40;
 }
 
 #box-left #box-left-contains #date-grid #item-calendar {
-    position: fixed;
     top: 2%;
     left: 40px;
     z-index: 40;
