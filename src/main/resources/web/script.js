@@ -43,7 +43,7 @@ $(function () {
 */
 
     document.getElementById('select-date').addEventListener('change', function() {
-        console.log(this.value);
+        console.log($('#select-date').val());
     });
 
     /*
