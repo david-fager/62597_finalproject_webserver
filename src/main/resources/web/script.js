@@ -45,7 +45,7 @@ $(function () {
         let message = document.getElementById("message").value;
         //TODO : fetch("/login/forgot/" + username + "?message=" + message).then((response) => response.status).then(function (data) {
             console.log(data);
-        });
+        //});
     });
 
     /* ---- page management ---- */
