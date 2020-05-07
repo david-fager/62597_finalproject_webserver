@@ -1,5 +1,8 @@
 import Javalin.Server;
+import brugerautorisation.transport.rmi.Brugeradmin;
+import common.rmi.SkeletonRMI;
 
+import java.rmi.Naming;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,11 +12,25 @@ public class Run {
     private static Calendar calendar = Calendar.getInstance();
 
     public static void main(String[] args) {
-        System.out.println(df.format(calendar.getTimeInMillis()) + " Starting server");
-        Server server = new Server();
-        server.initialize();
-        printASCII();
-        System.out.println(df.format(calendar.getTimeInMillis()) + " Server started");
+        try {
+            System.out.println(df.format(calendar.getTimeInMillis()) + " Starting server");
+
+            // Connecting to the database program
+            SkeletonRMI databaseServer = (SkeletonRMI) Naming.lookup("rmi://localhost:9921/my_fridge_rmi_remote");
+
+            // Connecting to the user authentication module
+            Brugeradmin javabogServer = (Brugeradmin) Naming.lookup("rmi://javabog.dk/brugeradmin");
+
+            // Starting this javalin server
+            Server server = new Server(databaseServer, javabogServer);
+            server.initialize();
+
+            printASCII();
+
+            System.out.println(df.format(calendar.getTimeInMillis()) + " Server started");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void printASCII() {

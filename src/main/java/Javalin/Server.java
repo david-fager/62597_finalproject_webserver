@@ -1,19 +1,30 @@
 package Javalin;
 
+import brugerautorisation.transport.rmi.Brugeradmin;
+import common.ResponseObject;
+import common.rmi.SkeletonRMI;
 import io.javalin.Javalin;
-import org.eclipse.jetty.http.HttpStatus;
 
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class Server {
-    private final boolean DEBUGGING = true; // Set whether to debug or not here
-    private Javalin app = null;
+    private final DateFormat DF = new SimpleDateFormat("[dd-MM-yyyy HH:mm:ss] ");
+    private final String STIPULATEDSERVERUUID = "80c95be1-322a-46b5-9f12-f30d3f8a9b78";
+    private Javalin app;
+    private SkeletonRMI databaseServer;
+    private Brugeradmin javabogServer;
 
-    private DateFormat df = new SimpleDateFormat("[dd-MM-yyyy HH:mm:ss] ");
-    private String getTime() {
-        return df.format(Calendar.getInstance().getTimeInMillis());
+    public Server(SkeletonRMI databaseServer, Brugeradmin javabogServer) {
+        this.databaseServer = databaseServer;
+        this.javabogServer = javabogServer;
+    }
+
+    private String getCurrentTime() {
+        return DF.format(Calendar.getInstance().getTimeInMillis());
     }
 
     public void initialize() {
@@ -23,16 +34,39 @@ public class Server {
     }
 
     private void javalinSetup() {
-        // Configuration of the server
+        // Configuration of the connection with the database program
+        try {
+            ResponseObject ro = databaseServer.serverConnect(STIPULATEDSERVERUUID);
+            if (ro.getStatusCode() != 0) {
+                System.out.println(getCurrentTime() + " Error connecting to the database program: " + ro.getStatusMessage());
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        // Configuration of the javalin server
         app = Javalin.create(config -> {
             config.addStaticFiles("web");
         });
 
-        // Starting the server on port (80)
+        // Starting the javalin server on port (80)
         app.start(80);
     }
 
     private void loginPaths() {
+
+        try {
+            ResponseObject ro = databaseServer.getUsers(STIPULATEDSERVERUUID);
+            if (ro.getStatusCode() == 0) {
+                System.out.println(ro.getResponseArraylist().toString());
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /*
         app.get("/", context -> {
             context.redirect("/login");
         });
@@ -91,7 +125,7 @@ public class Server {
                 context.status(HttpStatus.SERVICE_UNAVAILABLE_503);
             }
         });
-
+        */
     }
 
     private void fridgePaths() {
