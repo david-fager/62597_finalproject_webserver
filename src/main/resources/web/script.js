@@ -4,15 +4,23 @@ $(function () {
     $(".page-management").hide();
     $(".user-management").hide();
 
-    $("#button-login").click(function () {
-        $(".page-login").hide();
-        $(".page-management").show();
-    });
-
 
     /* ---- page login ---- */
-
+/*
     //TODO check users information inorder to log on
+    $("#button-login").click(function () {
+    let username = document.getElementById("brugernavn").value;
+    let password = document.getElementById("password").value;
+    //TODO : fetch("/login/" + username + "?password=" + password).then((response) => response.status).then(function (data) {
+        console.log(data);
+        if (data === 202) {
+            $(".page-login").hide();
+            $(".page-management").show();
+        } else if (data === 401) {
+            document.getElementById("login-error").innerHTML = "Forkert brugernavn eller adgangskode.";
+        }
+    });
+    */
 
     /* -- Forgot password modal -- */
 
@@ -32,7 +40,13 @@ $(function () {
     }
 
     //TODO get username, and send email via "send" button
-
+    $("#button-send-email").click(function () {
+        let username = document.getElementById("username2").value;
+        let message = document.getElementById("message").value;
+        //TODO : fetch("/login/forgot/" + username + "?message=" + message).then((response) => response.status).then(function (data) {
+            console.log(data);
+        });
+    });
 
     /* ---- page management ---- */
 
@@ -59,10 +73,23 @@ $(function () {
 
     $(".change-password").click(function () {
         //TODO change password
-    });
+        let oldpassword = document.getElementById("oldpassword").value;
+        let newpassword = document.getElementById("newpassword").value;
+        // TODO : fetch('/account/changePassword/' + oldpassword + "?newPassword=" + newpassword).then((response) => response.status).then(function (data) {
+            console.log(data);
+            if (data === 202) {
+                window.location.href = '/./';
+            } else if (data === 503) {
+                <!-- fejl! -->
+            }
+        });
+
 
     $(".annuller").click(function () {
         //TODO go back to page management
+        $(".page-login").hide();
+        $(".page-management").show();
+        $(".user-management").hide();
     });
 
     /* -- grid food items -- */
@@ -111,7 +138,7 @@ $(function () {
 
     //TODO make search bar work + button
 
-/*
+/* CALENDAR --------------------------------------------------------------------------
     $("#select-date").oninput(function () {
         var date = document.querySelector('input[type="date"]');
         console.log(date);
@@ -124,6 +151,7 @@ $(function () {
         );
 
     });
+    ---------------------------------------------------------------------------------
 */
 
     //TODO Calendar
