@@ -79,12 +79,16 @@ public class Server {
 
                         // If the database responds successfully, then add its uuid of the user to the userprofile
                         ResponseObject ro = databaseServer.login(username, password);
-                        if (ro != null) {
-                            if (ro.getStatusCode() == 0) {
-                                userProfile.setDatabase_uuid(ro.getResponseString());
+                        if (ro != null && ro.getStatusCode() == 0) {
+                            userProfile.setDatabase_uuid(ro.getResponseString());
+                            ro = databaseServer.createUser(userProfile.getDatabase_uuid(), username);
+                            if (ro != null && ro.getStatusCode() == 0) {
+                                System.out.println(getCurrentTime() + " Database program created new user");
                             } else {
-                                System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
+                                System.out.println(getCurrentTime() + " Database program unable to create new user");
                             }
+                        } else {
+                            System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
                         }
 
                         sessions.put(javalin_uuid, userProfile);
@@ -113,18 +117,35 @@ public class Server {
             }
         });
 
-        app.get("/fridge", context -> {
-            // TODO: 'Hente' hovedsiden, hvor items bliver displayed
-            // TODO: Denne er muligvis ikke nødvendig
-        });
-
         app.get("/fridge/items", context -> {
             // TODO: Hente fra database programmet, de items som brugeren har
-        });
+            String uuid_cookie = context.cookieStore("myfridge_uuid");
 
-        app.get("/user", context -> {
-            // TODO: 'Hente' bruger siden, hvor brugeren kan se sine informationer
-            // TODO: Denne er muligvis ikke nødvendig
+            // If the user does not have a javalin userprofile, then they should not be allowed to do anything
+            if (!sessions.containsKey(uuid_cookie)) {
+                System.out.println(getCurrentTime() + " Unauthorized user attempted to call database");
+                throw new UnauthorizedResponse("Unauthorized");
+            }
+            // If the user does not have a uuid in the database program, then no items can be fetched
+            if (sessions.get(uuid_cookie).getDatabase_uuid() == null) {
+                System.out.println(getCurrentTime() + " User does not have a database uuid");
+                throw new ServiceUnavailableResponse("User has no database uuid");
+            }
+
+            ResponseObject ro = databaseServer.getUser(sessions.get(uuid_cookie).database_uuid,sessions.get(uuid_cookie).username);
+            if (ro.getStatusCode() == 0) {
+                int fridgeID = Integer.parseInt(ro.getResponseArraylist().get(1)[1]);
+                System.out.println(getCurrentTime() + " Found fridge ID: " + fridgeID);
+
+                ro = databaseServer.getFridgeContents(sessions.get(uuid_cookie).database_uuid,fridgeID);
+                if (ro.getStatusCode() == 0){
+                    System.out.println(getCurrentTime() + " Sending JSON object");
+                    context.status(HttpStatus.OK_200);
+                    context.json(ro.getResponseArraylist());
+                }
+            } else {
+                System.out.println("this error happened");
+            }
         });
 
         app.put("/user/change-password", context -> {

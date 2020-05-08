@@ -13,16 +13,16 @@ $(function () {
         // If login or fridge, then dont allow top pop the state, aka. just replace it, otherwise let state be pop-able
         if (view === "login" || view === "fridge") {
             history.replaceState({view}, "", "/" + view)
-            console.log("Replaced state " + history.state.view)
+            //console.log("Replaced state " + history.state.view)
         } else if (window.location.pathname !== "/" + view) {
             history.pushState({view}, "", "/" + view)
-            console.log("Pushed state " + history.state.view)
+            //console.log("Pushed state " + history.state.view)
         }
     }
 
     // What happens when you press the back button in the browser
     window.onpopstate = function() {
-        console.log(history.state.view)
+        //console.log(history.state.view)
         if (history.state.view !== null) {
             changeView(history.state.view);
         }
@@ -41,6 +41,7 @@ $(function () {
             success: function () {
                 console.log("Success");
                 changeView("fridge");
+                loadItems();
             },
             error: function (result) {
                 console.log("Error " + JSON.stringify(result));
@@ -126,6 +127,29 @@ $(function () {
 
 
 
+    function loadItems() {
+        console.log("Loading items")
+        $.ajax({
+            method: "GET",
+            url: "/fridge/items",
+            success: function (result) {
+                console.log("Success");
+                //console.log(JSON.stringify(result))
+
+                for (item in result) {
+                    console.log(result[item])
+                    if (item !== '0') {
+                        addItem(result[item][3], result[item][0], result[item][1]);
+                    }
+                }
+
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
+    }
+
     /* -- grid food items -- */
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
@@ -144,6 +168,22 @@ $(function () {
             "    </div>\n" +
             "</div>");
     });
+
+    function addItem(name, amount, date) {
+        $(".grid").append("" +
+            "<div class=\"item\">\n" +
+            "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
+            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick='this.parentNode.remove()'>\n" +
+            "    <div class=\"box-content\">\n" +
+            "        <div class=\"content-text\">\n" +
+            "            <h5 class\"item-name\">" + name + "</h5>\n" +
+            "            <h5 class=\"item-amount\">" + amount + " tilbage</h5>\n" +
+            "            <h5 class=\"item-dato\">Udl.: " + date + "</h5>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "</div>");
+    }
 
 
 
