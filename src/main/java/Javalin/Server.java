@@ -19,7 +19,7 @@ public class Server {
     private Javalin app;
     private SkeletonRMI databaseServer;
     private Brugeradmin javabogServer;
-    private HashMap<String, String> sessions = new HashMap<>();
+    private HashMap<String, UserProfile> sessions = new HashMap<>();
 
     public Server(SkeletonRMI databaseServer, Brugeradmin javabogServer) {
         this.databaseServer = databaseServer;
@@ -53,6 +53,10 @@ public class Server {
 
     private void paths() {
 
+        app.get("/login", context -> {
+            context.redirect("/");
+        });
+
         app.post("/login", context -> {
             String username = context.queryParam("username");
             String password = context.queryParam("password");
@@ -61,21 +65,29 @@ public class Server {
                 Bruger bruger = javabogServer.hentBruger(username, password);
                 if (bruger != null) {
                     if (bruger.brugernavn.equals(username) && bruger.adgangskode.equals(password)) {
+                        UserProfile userProfile = new UserProfile();
+                        userProfile.setUsername(username);
 
-                        String uuid = UUID.randomUUID().toString();
-                        sessions.put(uuid,"");
+                        // Giving the legitimate user their uuid
+                        String javalin_uuid = UUID.randomUUID().toString();
+                        while (sessions.containsKey(javalin_uuid)) {
+                            javalin_uuid = UUID.randomUUID().toString();
+                        }
+                        userProfile.setJavalin_uuid(javalin_uuid);
 
+                        // If the database responds successfully, then add its uuid of the user to the userprofile
                         ResponseObject ro = databaseServer.login(username, password);
                         if (ro != null) {
                             if (ro.getStatusCode() == 0) {
-                                sessions.replace(uuid, ro.getResponseString());
+                                userProfile.setDatabase_uuid(ro.getResponseString());
                             } else {
                                 System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
                             }
                         }
 
-                        System.out.println(getCurrentTime() + " User logged in and got cookie uuid: " + uuid + " and db uuid:" + sessions.get(uuid));
-                        context.cookieStore("myfridge_uuid", uuid);
+                        sessions.put(javalin_uuid, userProfile);
+                        System.out.println(getCurrentTime() + " User logged in and got cookie uuid: " + javalin_uuid + " and db uuid:" + sessions.get(javalin_uuid).toString());
+                        context.cookieStore("myfridge_uuid", javalin_uuid);
                         context.status(HttpStatus.OK_200);
                     } else {
                         System.out.println(getCurrentTime() + " User failed to login");
@@ -93,21 +105,21 @@ public class Server {
             // TODO: Kalde på brugerautorisation at brugeren har glemt password
         });
 
-        app.get("/fridges/:username", context -> {
+        app.get("/fridge", context -> {
             // TODO: 'Hente' hovedsiden, hvor items bliver displayed
             // TODO: Denne er muligvis ikke nødvendig
         });
 
-        app.get("/fridges/:username/items", context -> {
+        app.get("/fridge/items", context -> {
             // TODO: Hente fra database programmet, de items som brugeren har
         });
 
-        app.get("/users/:username", context -> {
+        app.get("/user", context -> {
             // TODO: 'Hente' bruger siden, hvor brugeren kan se sine informationer
             // TODO: Denne er muligvis ikke nødvendig
         });
 
-        app.put("/users/:username/changepw", context -> {
+        app.put("/user/change-password", context -> {
             // TODO: Kalde på brugerautorisation for at skifte brugerens password
         });
 

@@ -7,26 +7,26 @@ body {
 
 
 /* page-login */
-.page-login {
+.login {
     width: 100%;
     height: 100%;
 }
 
-.page-login .center {
+.login .center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.page-login .center img {
+.login .center img {
     display: block;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.page-login .center .login-text-container {
+.login .center .login-text-container {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -34,18 +34,18 @@ body {
     width: 70%;
 }
 
-.page-login .center .login-text-container h3 {
+.login .center .login-text-container h3 {
     font-size: 1.5em;
     margin: 0;
     text-align: center;
 }
 
-.page-login .center .login-text-container label {
+.login .center .login-text-container label {
     display: block;
     margin: 25px 0 5px 10px
 }
 
-.page-login .center .login-text-container input {
+.login .center .login-text-container input {
     border-width: 1.5px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -54,18 +54,18 @@ body {
     border-color: #919290;
 }
 
-.page-login .center .login-text-container h6 {
+.login .center .login-text-container h6 {
     margin: 10px 0 20px 0;
     color: #919290;
 }
 
-.page-login .center .login-text-container h6:hover {
+.login .center .login-text-container h6:hover {
     margin: 10px 0 20px 0;
     color: #4a4849;
     cursor: pointer;
 }
 
-.page-login .center .login-text-container button {
+.login .center .login-text-container button {
     border-radius: 10px;
     background-color: #919290;
     border-width: 0;
@@ -74,7 +74,7 @@ body {
     color: white;
 }
 
-.page-login .center .login-text-container button:hover {
+.login .center .login-text-container button:hover {
     background-color: #f7f8f9;
     cursor: pointer;
     color: #919290;
@@ -166,12 +166,12 @@ body {
 
 
 /* page-management*/
-.page-management {
+.fridge {
     width: 100%;
     height: 100%;
 }
 
-.page-management .middle {
+.fridge .middle {
     position: absolute;
     top: 0;
     left: 50%;
@@ -180,27 +180,27 @@ body {
     height: 100vh;
 }
 
-.page-management .middle .top {
+.fridge .middle .top {
     text-align: center;
 }
 
 
 
-.page-management .user-dropdown {
+.fridge .user-dropdown {
     display: inline-block;
     position: absolute;
     top: 10px;
     right: 10px;
 }
 
-.page-management .user-dropdown button {
+.fridge .user-dropdown button {
     background-color: #efefef;
     border: none;
     height: 25px;
     color: #232222;
 }
 
-.page-management .user-dropdown .dropdown-contains {
+.fridge .user-dropdown .dropdown-contains {
     display: none;
     background-color: #919290;
     border-radius: 0px 0px 10px 10px;
@@ -211,27 +211,27 @@ body {
     color: white;
 }
 
-.page-management .user-dropdown .dropdown-contains h5:hover {
+.fridge .user-dropdown .dropdown-contains h5:hover {
     cursor: pointer;
     color: #aeafad;
 }
 
-.page-management .user-dropdown .dropdown-contains .logud {
+.fridge .user-dropdown .dropdown-contains .logud {
     color: #c9cacb;
 }
 
-.page-management .user-dropdown .dropdown-contains .show {
+.fridge .user-dropdown .dropdown-contains .show {
     display: block;
 }
 
 
 
-.page-management .middle .top img {
+.fridge .middle .top img {
     margin-top: 4%;
     margin-bottom: 4%;
 }
 
-.page-management .middle .top input {
+.fridge .middle .top input {
     border-width: 1.5px;
     border-radius: 7px;
     box-sizing: border-box;
@@ -239,7 +239,7 @@ body {
     height: 25px;
 }
 
-.page-management .middle .top button {
+.fridge .middle .top button {
     border-radius: 7px;
     background-color: #919290;
     border-width: 0;
@@ -247,7 +247,7 @@ body {
     color: white;
 }
 
-.page-management .middle .grid {
+.fridge .middle .grid {
     /* POSITIONING */
     margin-top: 2%;
     width: 100%;
@@ -262,7 +262,7 @@ body {
     overflow-y: scroll;
 }
 
-.page-management .middle .grid .item {
+.fridge .middle .grid .item {
     /* SET SIZE DEPENDING ON VIEWPORT */
     position: relative;
     width: 4vw;
@@ -274,7 +274,7 @@ body {
     margin: 0 2vw 4vw 2vw;
 }
 
-.page-management .middle .grid .item .box-visual {
+.fridge .middle .grid .item .box-visual {
     /* STRETCH ENTIRE BOX */
     position: relative;
     top: 0;
@@ -283,7 +283,7 @@ body {
     height: 100%;
 }
 
-.page-management .middle .grid .item .box-status {
+.fridge .middle .grid .item .box-status {
     /* POS TOP LEFT OF BOX */
     position: absolute;
     top: 0;
@@ -294,7 +294,7 @@ body {
     margin-left: 6%;
 }
 
-.page-management .middle .grid .item .trash-icon {
+.fridge .middle .grid .item .trash-icon {
     /* POS TOP RIGHT OF BOX */
     position: absolute;
     top: 0px;
@@ -303,7 +303,7 @@ body {
     height: 30%;
 }
 
-.page-management .middle .grid .item .box-content {
+.fridge .middle .grid .item .box-content {
     /* POS TEXT IN THE MIDDLE OF BOX*/
     position: absolute;
     transform: translate(-50%, -50%);
@@ -311,7 +311,7 @@ body {
     left: 50%;
 }
 
-.page-management .middle .grid .item .box-content h5 {
+.fridge .middle .grid .item .box-content h5 {
     /* ACTUAL TEXT MIDDLE POS */
     text-align: center;
     font-size: 0.6em;
@@ -491,12 +491,12 @@ body {
 
 
 /* User Management */
-.user-management {
+.user {
     width: 100%;
     height: 100%;
 }
 
-.user-management .middle {
+.user .middle {
     position: absolute;
     top: 0;
     left: 50%;
@@ -505,7 +505,7 @@ body {
     height: 100vh;
 }
 
-.user-management .middle .top img {
+.user .middle .top img {
     display: block;
     position: relative;
     left: 50%;
@@ -513,7 +513,7 @@ body {
     margin-top: 4%;
 }
 
-.user-management .middle .settings {
+.user .middle .settings {
     display: block;
     width: 25vw;
     position: relative;
@@ -522,19 +522,19 @@ body {
     margin-top: 4%;
 }
 
-.user-management .middle .settings h3 {
+.user .middle .settings h3 {
     font-size: x-large;
     text-align: center;
     color: #403f3f;
 }
 
-.user-management .middle .settings h5 {
+.user .middle .settings h5 {
     font-size: medium;
     text-align: center;
     color: #403F3F;
 }
 
-.user-management .middle .settings input {
+.user .middle .settings input {
     border-width: 1.5px;
     border-radius: 7px;
     box-sizing: border-box;
@@ -543,7 +543,7 @@ body {
     width: 100%;
 }
 
-.user-management .middle .settings button
+.user .middle .settings button
 {
     border-radius: 10px;
     background-color: #919290;
@@ -553,14 +553,14 @@ body {
     color: white;
 }
 
-.user-management .middle .settings button:hover
+.user .middle .settings button:hover
 {
     background-color: #f7f8f9;
     color: #919290;
     cursor: pointer;
 }
 
-.user-management .middle .settings .annuller
+.user .middle .settings .annuller
 {
     border-radius: 10px;
     background-color: #c6c7c5;
@@ -570,7 +570,7 @@ body {
     color: white;
 }
 
-.user-management .middle .settings .annuller:hover
+.user .middle .settings .annuller:hover
 {
     background-color: #f7f8f9;
     color: #c6c7c5;

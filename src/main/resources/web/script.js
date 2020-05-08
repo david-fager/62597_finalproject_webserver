@@ -1,11 +1,32 @@
 $(function () {
 
+    // Ensures the first view for the user is the login page
+    changeView('login')
+
+    // Changes the view for the single page app
     function changeView(view) {
-        $(".page-login").hide();
-        $(".page-management").hide();
-        $(".user-management").hide();
+        $(".login").hide();
+        $(".fridge").hide();
+        $(".user").hide();
         $("." + view + "").show();
+
+        // If login or fridge, then dont allow top pop the state, aka. just replace it, otherwise let state be pop-able
+        if (view === "login" || view === "fridge") {
+            history.replaceState({view}, "", "/" + view)
+            console.log("Replaced state " + history.state.view)
+        } else if (window.location.pathname !== "/" + view) {
+            history.pushState({view}, "", "/" + view)
+            console.log("Pushed state " + history.state.view)
+        }
     }
+
+    // What happens when you press the back button in the browser
+    window.onpopstate = function() {
+        console.log(history.state.view)
+        if (history.state.view !== null) {
+            changeView(history.state.view);
+        }
+    };
 
 
 
@@ -19,7 +40,7 @@ $(function () {
             url: "/login/" + queryparams,
             success: function () {
                 console.log("Success");
-                changeView("page-management");
+                changeView("fridge");
             },
             error: function () {
                 console.log("Error");
@@ -66,14 +87,11 @@ $(function () {
     });
 
     $(".logud").click(function () {
-        document.cookie = "sessionID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.href = "./";
+
     });
 
     $(".settings").click(function () {
-        $(".page-login").hide();
-        $(".page-management").hide();
-        $(".user-management").show();
+        changeView('user');
     });
 
 
@@ -94,9 +112,9 @@ $(function () {
 
     $(".annuller").click(function () {
         //TODO go back to page management
-        $(".page-login").hide();
-        $(".page-management").show();
-        $(".user-management").hide();
+        $(".login").hide();
+        $(".fridge").show();
+        $(".user").hide();
     });
 
 
