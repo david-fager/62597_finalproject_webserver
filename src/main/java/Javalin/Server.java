@@ -2,10 +2,10 @@ package Javalin;
 
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import common.ResponseObject;
 import common.rmi.SkeletonRMI;
 import io.javalin.Javalin;
-import io.javalin.http.InternalServerErrorResponse;
 import io.javalin.http.ServiceUnavailableResponse;
 import io.javalin.http.UnauthorizedResponse;
 import org.eclipse.jetty.http.HttpStatus;
@@ -128,8 +128,11 @@ public class Server {
             String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
             if (uuid_cookie != null && sessions.get(uuid_cookie) != null && !sessions.get(uuid_cookie).getDatabase_uuid().equals("")) {
                 ResponseObject ro = databaseServer.validateUUID(sessions.get(uuid_cookie).getDatabase_uuid());
-                if (ro != null && ro.getStatusCode() == 0) {
-                    context.status(HttpStatus.ACCEPTED_202);
+                if (ro != null) {
+                    if (ro.getStatusCode() == 0) {
+                        context.status(HttpStatus.ACCEPTED_202);
+                        return;
+                    }
                 }
             }
 
@@ -162,6 +165,18 @@ public class Server {
                     context.status(HttpStatus.OK_200);
                     context.json(ro.getResponseArraylist());
                 }
+            }
+        });
+
+        app.get("/fridge/new-item/types", context -> {
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
+
+            ResponseObject ro = databaseServer.getTypes(sessions.get(uuid_cookie).getDatabase_uuid());
+            if (ro != null && ro.getStatusCode() == 0) {
+                System.out.println(getCurrentTime() + " Sending JSON object");
+                context.status(HttpStatus.OK_200);
+                context.json(ro.getResponseArraylist());
             }
         });
 

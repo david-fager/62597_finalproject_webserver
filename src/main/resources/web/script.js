@@ -1,8 +1,20 @@
 $(function () {
 
     // Ensures the first view for the user is the login page or the fridge page if the user is recognized
+    $.ajax({
+        method: "POST",
+        url: "/login/returning",
+        success: function () {
+            console.log("Success");
+            changeView('fridge');
+        },
+        error: function () {
+            console.log("Error");
+            changeView('login');
+        }
+    });
 
-    changeView('login')
+
 
     // Changes the view for the single page app
     function changeView(view) {
@@ -10,6 +22,14 @@ $(function () {
         $(".fridge").hide();
         $(".user").hide();
         $("." + view + "").show();
+
+        switch (view) {
+            case 'fridge':
+                loadItems();
+                break;
+            default:
+                break;
+        }
 
         // If login or fridge, then dont allow top pop the state, aka. just replace it, otherwise let state be pop-able
         if (view === "login" || view === "fridge") {
@@ -42,7 +62,6 @@ $(function () {
             success: function () {
                 console.log("Success");
                 changeView("fridge");
-                loadItems();
             },
             error: function (result) {
                 console.log("Error " + JSON.stringify(result));
@@ -203,6 +222,25 @@ $(function () {
 
     function openModal() {
         modal.style.display = 'block';
+
+        $.ajax({
+            method: "GET",
+            url: "/fridge/new-item/types",
+            success: function (result) {
+                $("#type").html("");
+                console.log(JSON.stringify(result))
+
+                for (item in result) {
+                    console.log(result[item])
+                    if (item !== '0') {
+                        $("#type").append("<option value=\"" + result[item][1] + "\">" + result[item][1] + "</option>");
+                    }
+                }
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
     }
 
     function closeModal() {

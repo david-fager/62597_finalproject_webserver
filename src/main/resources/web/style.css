@@ -255,7 +255,7 @@ body {
 
     /* GRID STRUCTURING */
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
     justify-content: center;
     grid-row-gap: 0;
 
@@ -265,8 +265,8 @@ body {
 .fridge .middle .grid .item {
     /* SET SIZE DEPENDING ON VIEWPORT */
     position: relative;
-    width: 4vw;
-    height: 4vw;
+    width: 5vw;
+    height: 5vw;
     min-width: 80px;
     min-height: 80px;
 
