@@ -42,8 +42,9 @@ $(function () {
                 console.log("Success");
                 changeView("fridge");
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log("Error " + JSON.stringify(result));
+                $("#login-error").html("Forkert brugernavn eller adgangskode.");
             }
         });
     });
@@ -68,11 +69,17 @@ $(function () {
 
     //TODO get username, and send email via "send" button
     $("#button-send-email").click(function () {
-        let username = document.getElementById("username2").value;
-        let message = document.getElementById("message").value;
-        //TODO : fetch("/login/forgot/" + username + "?message=" + message).then((response) => response.status).then(function (data) {
-            console.log(data);
-        //});
+        let username = $("#email").val();
+        $.ajax({
+            method: "POST",
+            url: "/login/forgot/?username=" + username,
+            success: function () {
+                console.log("Success");
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
     });
 
     /* ---- page management ---- */

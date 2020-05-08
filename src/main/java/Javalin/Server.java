@@ -5,6 +5,8 @@ import brugerautorisation.transport.rmi.Brugeradmin;
 import common.ResponseObject;
 import common.rmi.SkeletonRMI;
 import io.javalin.Javalin;
+import io.javalin.http.InternalServerErrorResponse;
+import io.javalin.http.ServiceUnavailableResponse;
 import io.javalin.http.UnauthorizedResponse;
 import org.eclipse.jetty.http.HttpStatus;
 
@@ -102,7 +104,13 @@ public class Server {
 
         app.post("/login/forgot", context -> {
             String username = context.queryParam("username");
-            // TODO: Kalde på brugerautorisation at brugeren har glemt password
+            try {
+                javabogServer.sendGlemtAdgangskodeEmail(username,"Send fra MyFridge");
+                context.status(HttpStatus.OK_200);
+            } catch (Exception e) {
+                System.out.println(getCurrentTime() + " /login/forgot exception: " + e.getMessage());
+                throw new ServiceUnavailableResponse("Unexpected error :(");
+            }
         });
 
         app.get("/fridge", context -> {
