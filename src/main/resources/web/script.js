@@ -1,29 +1,35 @@
 $(function () {
 
-    $(".page-login").show();
-    $(".page-management").hide();
-    $(".user-management").hide();
+    function changeView(view) {
+        $(".page-login").hide();
+        $(".page-management").hide();
+        $(".user-management").hide();
+        $("." + view + "").show();
+    }
+
 
 
     /* ---- page login ---- */
-/*
-    //TODO check users information inorder to log on
-    $("#button-login").click(function () {
-    let username = document.getElementById("brugernavn").value;
-    let password = document.getElementById("password").value;
-    //TODO : fetch("/login/" + username + "?password=" + password).then((response) => response.status).then(function (data) {
-        console.log(data);
-        if (data === 202) {
-            $(".page-login").hide();
-            $(".page-management").show();
-        } else if (data === 401) {
-            document.getElementById("login-error").innerHTML = "Forkert brugernavn eller adgangskode.";
-        }
+    $('#button-login').click(function () {
+        var queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val()
+        console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams)
+
+        $.ajax({
+            method: "POST",
+            url: "/login/" + queryparams,
+            success: function () {
+                console.log("Success");
+                changeView("page-management");
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
     });
-    */
+
+
 
     /* -- Forgot password modal -- */
-
     var forgot_modal = document.getElementById("forgot-modal-window");
     var forgot_btn = document.getElementById("open-forgot-password");
     var forgot_span = document.getElementsByClassName("forgot-close")[0];
@@ -50,8 +56,9 @@ $(function () {
 
     /* ---- page management ---- */
 
-    /* -- Dropdown -- */
 
+
+    /* -- Dropdown -- */
     //TODO when user logged in, set "dropdown-button" to be the users username
 
     $(".dropdown-button").click(function () {
@@ -69,8 +76,9 @@ $(function () {
         $(".user-management").show();
     });
 
-    /* - Inside settings - */
 
+
+    /* - Inside settings - */
     $(".change-password").click(function () {
         //TODO change password
         let oldpassword = document.getElementById("oldpassword").value;
@@ -84,7 +92,6 @@ $(function () {
             }
         });
 
-
     $(".annuller").click(function () {
         //TODO go back to page management
         $(".page-login").hide();
@@ -92,8 +99,9 @@ $(function () {
         $(".user-management").hide();
     });
 
-    /* -- grid food items -- */
 
+
+    /* -- grid food items -- */
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
 
@@ -112,8 +120,9 @@ $(function () {
             "</div>");
     });
 
-    /* -- Add food items modal -- */
 
+
+    /* -- Add food items modal -- */
     // Get the modal
     var modal = document.getElementById("modal-window");
 

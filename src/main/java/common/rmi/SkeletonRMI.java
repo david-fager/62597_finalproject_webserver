@@ -11,9 +11,7 @@ public interface SkeletonRMI extends Remote {
 
     ResponseObject getTables(String uuid) throws RemoteException;
 
-    ResponseObject adminLogin(String username, String password) throws RemoteException;
-
-    ResponseObject serverConnect(String stipulatedUUID) throws RemoteException;
+    ResponseObject login(String username, String password) throws RemoteException;
     
 
     ResponseObject createUser(String uuid, String userName) throws RemoteException;

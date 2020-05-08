@@ -22,9 +22,9 @@
         <div class="login-text-container">
             <h3>Velkommen</h3>
             <label>Brugernavn</label>
-            <input type="text" id="brugernavn">
+            <input type="text" id="field-brugernavn">
             <label>Adgangskode</label>
-            <input type="password" id="password">
+            <input type="password" id="field-password">
             <h6 id="open-forgot-password">Glemt adgangskode?</h6>
             <button id="button-login">Log på</button>
         </div>
@@ -109,7 +109,7 @@
     </div>
 
     <div class="user-dropdown">
-        <button onclick="" class="dropdown-button">Username &darr;</button>
+        <button onclick="" class="dropdown-button">Username &#9660;</button>
         <div id="user-dropdown" class="dropdown-contains">
             <h5 class="settings">Settings</h5>
             <h5 class="logud">Log ud</h5>
@@ -130,6 +130,7 @@
     -->
 
 </div>
+<script>$(".page-management").hide()</script>
 
 <div class="user-management">
     <div class="middle"> <!-- Contains logo, search and food items grid -->
@@ -159,6 +160,7 @@
     </div>
     </div>
 </div>
+<script>$(".user-management").hide()</script>
 
 </body>
 </html>
