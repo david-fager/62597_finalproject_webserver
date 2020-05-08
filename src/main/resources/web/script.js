@@ -1,6 +1,7 @@
 $(function () {
 
-    // Ensures the first view for the user is the login page
+    // Ensures the first view for the user is the login page or the fridge page if the user is recognized
+
     changeView('login')
 
     // Changes the view for the single page app

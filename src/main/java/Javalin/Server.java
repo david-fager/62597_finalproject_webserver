@@ -22,6 +22,7 @@ public class Server {
     private SkeletonRMI databaseServer;
     private Brugeradmin javabogServer;
     private HashMap<String, UserProfile> sessions = new HashMap<>();
+    private final String UUID_COOKIE_NAME = "myfridge_uuid";
 
     public Server(SkeletonRMI databaseServer, Brugeradmin javabogServer) {
         this.databaseServer = databaseServer;
@@ -30,6 +31,19 @@ public class Server {
 
     private String getCurrentTime() {
         return DF.format(Calendar.getInstance().getTimeInMillis());
+    }
+
+    private void validateUser(String uuid_cookie) {
+        // If the user does not have a javalin userprofile, then they should not be allowed to do anything
+        if (!sessions.containsKey(uuid_cookie)) {
+            System.out.println(getCurrentTime() + " Unauthorized user attempted to call database");
+            throw new UnauthorizedResponse("Unauthorized");
+        }
+        // If the user does not have a uuid in the database program, then no items can be fetched
+        if (sessions.get(uuid_cookie).getDatabase_uuid() == null) {
+            System.out.println(getCurrentTime() + " User does not have a database uuid");
+            throw new ServiceUnavailableResponse("User has no database uuid");
+        }
     }
 
     public void initialize() {
@@ -55,10 +69,6 @@ public class Server {
 
     private void paths() {
 
-        app.get("/login", context -> {
-            context.redirect("/");
-        });
-
         app.post("/login", context -> {
             String username = context.queryParam("username");
             String password = context.queryParam("password");
@@ -71,29 +81,33 @@ public class Server {
                         userProfile.setUsername(username);
 
                         // Giving the legitimate user their uuid
-                        String javalin_uuid = UUID.randomUUID().toString();
-                        while (sessions.containsKey(javalin_uuid)) {
-                            javalin_uuid = UUID.randomUUID().toString();
+                        String uuid_cookie = UUID.randomUUID().toString();
+                        while (sessions.containsKey(uuid_cookie)) {
+                            uuid_cookie = UUID.randomUUID().toString();
                         }
-                        userProfile.setJavalin_uuid(javalin_uuid);
+                        userProfile.setJavalin_uuid(uuid_cookie);
 
                         // If the database responds successfully, then add its uuid of the user to the userprofile
                         ResponseObject ro = databaseServer.login(username, password);
-                        if (ro != null && ro.getStatusCode() == 0) {
-                            userProfile.setDatabase_uuid(ro.getResponseString());
-                            ro = databaseServer.createUser(userProfile.getDatabase_uuid(), username);
-                            if (ro != null && ro.getStatusCode() == 0) {
-                                System.out.println(getCurrentTime() + " Database program created new user");
+                        if (ro != null) {
+                            if (ro.getStatusCode() == 0) {
+                                userProfile.setDatabase_uuid(ro.getResponseString());
+                                ro = databaseServer.createUser(userProfile.getDatabase_uuid(), username);
+                                if (ro != null && ro.getStatusCode() == 0) {
+                                    System.out.println(getCurrentTime() + " Database program created new user");
+                                } else {
+                                    System.out.println(getCurrentTime() + " Database program unable to create new user");
+                                }
                             } else {
-                                System.out.println(getCurrentTime() + " Database program unable to create new user");
+                                System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
                             }
                         } else {
                             System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
                         }
 
-                        sessions.put(javalin_uuid, userProfile);
-                        System.out.println(getCurrentTime() + " User logged in and got cookie uuid: " + javalin_uuid + " and db uuid:" + sessions.get(javalin_uuid).toString());
-                        context.cookieStore("myfridge_uuid", javalin_uuid);
+                        sessions.put(uuid_cookie, userProfile);
+                        System.out.println(getCurrentTime() + " User logged in and got cookie uuid: " + uuid_cookie + " and db uuid:" + sessions.get(uuid_cookie).toString());
+                        context.cookieStore(UUID_COOKIE_NAME, uuid_cookie);
                         context.status(HttpStatus.OK_200);
                     } else {
                         System.out.println(getCurrentTime() + " User failed to login");
@@ -104,6 +118,22 @@ public class Server {
                 System.out.println(getCurrentTime() + " Exception: " + e.getMessage());
                 throw new UnauthorizedResponse("Authentication error");
             }
+        });
+
+        app.get("/login", context -> {
+            context.redirect("/");
+        });
+
+        app.post("/login/returning", context -> {
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            if (uuid_cookie != null && sessions.get(uuid_cookie) != null && !sessions.get(uuid_cookie).getDatabase_uuid().equals("")) {
+                ResponseObject ro = databaseServer.validateUUID(sessions.get(uuid_cookie).getDatabase_uuid());
+                if (ro != null && ro.getStatusCode() == 0) {
+                    context.status(HttpStatus.ACCEPTED_202);
+                }
+            }
+
+            context.status(HttpStatus.UNAUTHORIZED_401);
         });
 
         app.post("/login/forgot", context -> {
@@ -118,33 +148,20 @@ public class Server {
         });
 
         app.get("/fridge/items", context -> {
-            // TODO: Hente fra database programmet, de items som brugeren har
-            String uuid_cookie = context.cookieStore("myfridge_uuid");
-
-            // If the user does not have a javalin userprofile, then they should not be allowed to do anything
-            if (!sessions.containsKey(uuid_cookie)) {
-                System.out.println(getCurrentTime() + " Unauthorized user attempted to call database");
-                throw new UnauthorizedResponse("Unauthorized");
-            }
-            // If the user does not have a uuid in the database program, then no items can be fetched
-            if (sessions.get(uuid_cookie).getDatabase_uuid() == null) {
-                System.out.println(getCurrentTime() + " User does not have a database uuid");
-                throw new ServiceUnavailableResponse("User has no database uuid");
-            }
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
 
             ResponseObject ro = databaseServer.getUser(sessions.get(uuid_cookie).database_uuid,sessions.get(uuid_cookie).username);
             if (ro.getStatusCode() == 0) {
                 int fridgeID = Integer.parseInt(ro.getResponseArraylist().get(1)[1]);
                 System.out.println(getCurrentTime() + " Found fridge ID: " + fridgeID);
 
-                ro = databaseServer.getFridgeContents(sessions.get(uuid_cookie).database_uuid,fridgeID);
-                if (ro.getStatusCode() == 0){
+                ro = databaseServer.getFridgeContents(sessions.get(uuid_cookie).database_uuid, fridgeID);
+                if (ro.getStatusCode() == 0) {
                     System.out.println(getCurrentTime() + " Sending JSON object");
                     context.status(HttpStatus.OK_200);
                     context.json(ro.getResponseArraylist());
                 }
-            } else {
-                System.out.println("this error happened");
             }
         });
 

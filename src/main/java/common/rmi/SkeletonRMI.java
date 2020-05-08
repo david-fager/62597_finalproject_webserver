@@ -12,7 +12,9 @@ public interface SkeletonRMI extends Remote {
     ResponseObject getTables(String uuid) throws RemoteException;
 
     ResponseObject login(String username, String password) throws RemoteException;
-    
+
+    ResponseObject validateUUID(String uuid) throws RemoteException;
+
 
     ResponseObject createUser(String uuid, String userName) throws RemoteException;
 
