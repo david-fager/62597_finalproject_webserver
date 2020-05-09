@@ -184,6 +184,9 @@ body {
     text-align: center;
 }
 
+.fridge .middle .top #text{
+    padding: 20px;
+}
 
 
 .fridge .user-dropdown {

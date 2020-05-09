@@ -14,6 +14,20 @@ $(function () {
         }
     });
 
+    function getUserInfo() {
+        $.ajax({
+            method: "GET",
+            url: "/user/info",
+            success: function (result) {
+                console.log("Success");
+                console.log(result);
+                $(".dropdown-button").html(result.username + " &#9660");
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
+    }
 
 
     // Changes the view for the single page app
@@ -26,6 +40,7 @@ $(function () {
         switch (view) {
             case 'fridge':
                 loadItems();
+                getUserInfo();
                 break;
             default:
                 break;
@@ -53,8 +68,8 @@ $(function () {
 
     /* ---- page login ---- */
     $('#button-login').click(function () {
-        var queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val()
-        console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams)
+        var queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val();
+        console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams);
 
         $.ajax({
             method: "POST",
@@ -109,9 +124,9 @@ $(function () {
 
     /* -- Dropdown -- */
     //TODO when user logged in, set "dropdown-button" to be the users username
-
     $(".dropdown-button").click(function () {
         $("#user-dropdown").toggle("show");
+
     });
 
     $(".logud").click(function () {
@@ -153,11 +168,11 @@ $(function () {
             method: "GET",
             url: "/fridge/items",
             success: function (result) {
-                console.log("Success");
-                //console.log(JSON.stringify(result))
+                console.log("Success: " + JSON.stringify(result));
+                console.log(JSON.stringify(result));
 
                 for (item in result) {
-                    console.log(result[item])
+                    //console.log(result[item])
                     if (item !== '0') {
                         addItem(result[item][3], result[item][0], result[item][1]);
                     }
@@ -181,7 +196,7 @@ $(function () {
             "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick='this.parentNode.remove()'>\n" +
             "    <div class=\"box-content\">\n" +
             "        <div class=\"content-text\">\n" +
-            "            <h5 class\"item-name\">PLACEHOLDER</h5>\n" +
+            "            <h5 class=\"item-name\" style=\"font-style: italic\">PLACEHOLDER</h5>\n" +
             "            <h5 class=\"item-amount\">999 tilbage</h5>\n" +
             "            <h5 class=\"item-dato\">Udl.: 00/00/00</h5>\n" +
             "        </div>\n" +
@@ -197,9 +212,9 @@ $(function () {
             "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick='this.parentNode.remove()'>\n" +
             "    <div class=\"box-content\">\n" +
             "        <div class=\"content-text\">\n" +
-            "            <h5 class\"item-name\">" + name + "</h5>\n" +
-            "            <h5 class=\"item-amount\">" + amount + " tilbage</h5>\n" +
-            "            <h5 class=\"item-dato\">Udl.: " + date + "</h5>\n" +
+            "            <h5 class=\"item-name\" style=\"color: #403f3f\">" + name + "</h5>\n" +
+            "            <h5 class=\"item-amount\" style=\"font-style: italic; color: #5a5959\">" + amount + " tilbage</h5>\n" +
+            "            <h5 class=\"item-dato\" style=\"font-style: italic; color: #fffdfd\">Udl.: " + date + "</h5>\n" +
             "        </div>\n" +
             "    </div>\n" +
             "</div>");
@@ -228,12 +243,12 @@ $(function () {
             url: "/fridge/new-item/types",
             success: function (result) {
                 $("#type").html("");
-                console.log(JSON.stringify(result))
+                console.log(JSON.stringify(result));
 
                 for (item in result) {
                     console.log(result[item])
                     if (item !== '0') {
-                        $("#type").append("<option value=\"" + result[item][1] + "\">" + result[item][1] + "</option>");
+                        $("#type").append("<option value=\"" + result[item][0] + "\">" + result[item][1] + "</option>");
                     }
                 }
             },

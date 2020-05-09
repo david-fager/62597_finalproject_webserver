@@ -180,6 +180,14 @@ public class Server {
             }
         });
 
+        app.get("/user/info", context -> {
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
+
+
+            context.json(sessions.get(uuid_cookie));
+        });
+
         app.put("/user/change-password", context -> {
             // TODO: Kalde på brugerautorisation for at skifte brugerens password
         });
