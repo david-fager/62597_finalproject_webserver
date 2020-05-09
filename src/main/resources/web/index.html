@@ -47,7 +47,8 @@
 
 <div class="fridge">
 
-    <div> <!--TODO: sidebar 1-->
+    <!--
+    <div> TODO: sidebar 1
         <img id="slider-left" src="images/arrow-bar-left.png" height="400" width="30" onclick=""/>
         <div id="box-left">
             <img src="images/boks-til-venstre.png" height="400" width="250">
@@ -63,6 +64,7 @@
             </div>
         </div>
     </div>
+    -->
 
     <div class="middle"> <!-- Contains logo, search and food items grid -->
         <div class="top"> <!-- Contains logo and search -->
@@ -71,7 +73,7 @@
                 <input type="text" placeholder="..." name="search" id="text">
                 <button type="submit">Søg<i class="searching"></i></button>
                 <button id="modal-button">Tilføj fødevare</button>
-                <button id="button-new-box">ny boks</button>
+                <!-- <button id="button-new-box">ny boks</button> -->
             </div>
         </div>
 
@@ -105,8 +107,8 @@
     <div class="user-dropdown">
         <button onclick="" class="dropdown-button"></button>
         <div id="user-dropdown" class="dropdown-contains">
-            <h5 class="settings">Settings</h5>
-            <h5 class="logud">Log ud</h5>
+            <h5 id="settings-button">Settings</h5>
+            <h5 id="logud-button">Log ud</h5>
         </div>
     </div>
 
@@ -134,24 +136,24 @@
         <br>
         <br>
         <div class="settings">
-        <h3>Settings</h3>
-        <form action="javascript:changePassword()">
-            <h5>Skift adgangskode</h5>
-            <label >Skriv gamle kode:</label>
-            <input type="text" name="oldPassword" id="oldpassword" required>
-            <br>
-            <br>
-            <label>Skriv ny kode:</label>
-            <br>
-            <input type="password" name="newPassword" id="newpassword" required>
-            <br>
-            <br>
-            <button class="change-password">Ændre</button>
-            <br>
-            <br>
-            <button class="annuller">Annuller</button>
-        </form>
-    </div>
+            <h3>Settings</h3>
+            <form action="javascript:changePassword()">
+                <h5>Skift adgangskode</h5>
+                <label>Skriv gamle kode:</label>
+                <input type="text" name="oldPassword" id="oldpassword" required>
+                <br>
+                <br>
+                <label>Skriv ny kode:</label>
+                <br>
+                <input type="password" name="newPassword" id="newpassword" required>
+                <br>
+                <br>
+                <button class="change-password">Ændre</button>
+                <br>
+                <br>
+            </form>
+            <button id="annuller">Annuller</button>
+        </div>
     </div>
 </div>
 <script>$(".user").hide()</script>

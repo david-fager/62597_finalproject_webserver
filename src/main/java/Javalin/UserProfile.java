@@ -5,6 +5,7 @@ public class UserProfile {
     String javalin_uuid;
     String database_uuid;
     String ip;
+    int fridgeID;
 
     @Override
     public String toString() {
@@ -13,7 +14,16 @@ public class UserProfile {
                 ", javalin_uuid='" + javalin_uuid + '\'' +
                 ", database_uuid='" + database_uuid + '\'' +
                 ", ip='" + ip + '\'' +
+                ", fridgeID=" + fridgeID +
                 '}';
+    }
+
+    public int getFridgeID() {
+        return fridgeID;
+    }
+
+    public void setFridgeID(int fridgeID) {
+        this.fridgeID = fridgeID;
     }
 
     public String getUsername() {

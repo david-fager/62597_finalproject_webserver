@@ -5,7 +5,6 @@ body {
     margin: 0;
 }
 
-
 /* page-login */
 .login {
     width: 100%;
@@ -185,7 +184,7 @@ body {
 }
 
 .fridge .middle .top #text{
-    padding: 20px;
+    padding-left: 10px;
 }
 
 
@@ -219,7 +218,7 @@ body {
     color: #aeafad;
 }
 
-.fridge .user-dropdown .dropdown-contains .logud {
+.fridge .user-dropdown .dropdown-contains #logud-button {
     color: #c9cacb;
 }
 
@@ -563,7 +562,7 @@ body {
     cursor: pointer;
 }
 
-.user .middle .settings .annuller
+.user .middle .settings #annuller
 {
     border-radius: 10px;
     background-color: #c6c7c5;
@@ -573,7 +572,7 @@ body {
     color: white;
 }
 
-.user .middle .settings .annuller:hover
+.user .middle .settings #annuller:hover
 {
     background-color: #f7f8f9;
     color: #c6c7c5;

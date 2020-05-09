@@ -1,4 +1,6 @@
-$(function () {
+$(document).ready(function() {
+
+    let userItems;
 
     // Ensures the first view for the user is the login page or the fridge page if the user is recognized
     $.ajax({
@@ -13,22 +15,6 @@ $(function () {
             changeView('login');
         }
     });
-
-    function getUserInfo() {
-        $.ajax({
-            method: "GET",
-            url: "/user/info",
-            success: function (result) {
-                console.log("Success");
-                console.log(result);
-                $(".dropdown-button").html(result.username + " &#9660");
-            },
-            error: function () {
-                console.log("Error");
-            }
-        });
-    }
-
 
     // Changes the view for the single page app
     function changeView(view) {
@@ -64,11 +50,24 @@ $(function () {
         }
     };
 
-
+    function getUserInfo() {
+        $.ajax({
+            method: "GET",
+            url: "/user/info",
+            success: function (result) {
+                console.log("Success");
+                console.log(result);
+                $(".dropdown-button").html(result.username + " &#9660");
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
+    }
 
     /* ---- page login ---- */
     $('#button-login').click(function () {
-        var queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val();
+        let queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val();
         console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams);
 
         $.ajax({
@@ -88,9 +87,9 @@ $(function () {
 
 
     /* -- Forgot password modal -- */
-    var forgot_modal = document.getElementById("forgot-modal-window");
-    var forgot_btn = document.getElementById("open-forgot-password");
-    var forgot_span = document.getElementsByClassName("forgot-close")[0];
+    let forgot_modal = document.getElementById("forgot-modal-window");
+    let forgot_btn = document.getElementById("open-forgot-password");
+    let forgot_span = document.getElementsByClassName("forgot-close")[0];
 
     forgot_btn.addEventListener('click', openForgotModal);
     forgot_span.addEventListener('click', closeForgotModal);
@@ -118,6 +117,8 @@ $(function () {
         });
     });
 
+
+
     /* ---- page management ---- */
 
 
@@ -129,11 +130,11 @@ $(function () {
 
     });
 
-    $(".logud").click(function () {
+    $("#logud-button").click(function () {
 
     });
 
-    $(".settings").click(function () {
+    $("#settings-button").click(function () {
         changeView('user');
     });
 
@@ -145,36 +146,35 @@ $(function () {
         let oldpassword = document.getElementById("oldpassword").value;
         let newpassword = document.getElementById("newpassword").value;
         // TODO : fetch('/account/changePassword/' + oldpassword + "?newPassword=" + newpassword).then((response) => response.status).then(function (data) {
-            console.log(data);
-            if (data === 202) {
-                window.location.href = '/./';
-            } else if (data === 503) {
-                <!-- fejl! -->
-            }
-        });
+        console.log(data);
+        if (data === 202) {
+            window.location.href = '/./';
+        } else if (data === 503) {
+            <!-- fejl! -->
+        }
+    });
 
-    $(".annuller").click(function () {
-        //TODO go back to page management
-        $(".login").hide();
-        $(".fridge").show();
-        $(".user").hide();
+    $("#annuller").click(function () {
+        changeView("fridge");
     });
 
 
 
     function loadItems() {
-        console.log("Loading items")
+        console.log("Loading items");
+        $(".grid").html("");
+
         $.ajax({
             method: "GET",
             url: "/fridge/items",
             success: function (result) {
                 console.log("Success: " + JSON.stringify(result));
-                console.log(JSON.stringify(result));
+                userItems = result;
 
                 for (item in result) {
                     //console.log(result[item])
                     if (item !== '0') {
-                        addItem(result[item][3], result[item][0], result[item][1]);
+                        showItem(result[item]);
                     }
                 }
 
@@ -186,6 +186,26 @@ $(function () {
     }
 
     /* -- grid food items -- */
+    function showItem(item) {
+
+        $(".grid").append("" +
+            "<div class=\"item\">\n" +
+            "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
+            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick=\"removeItem("+ item[2] +")\">\n" +
+            "    <div class=\"box-content\">\n" +
+            "        <div class=\"content-text\">\n" +
+            "            <h5 id=\"item-ID\" style=\"display: none;\">" + item[2] + "</h5>\n" +
+            "            <h5 class=\"item-name\" style=\"color: #403f3f\">" + item[3] + "</h5>\n" +
+            "            <h5 class=\"item-amount\" style=\"font-style: italic; color: #5a5959\">" + item[0] + " tilbage</h5>\n" +
+            "            <h5 class=\"item-dato\" style=\"font-style: italic; color: #fffdfd\">Udl.: " + item[1] + "</h5>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "</div>");
+    }
+
+
+
     $("#button-new-box").click(function () {
         console.log("Tilføjet boks!")
 
@@ -204,33 +224,32 @@ $(function () {
             "</div>");
     });
 
-    function addItem(name, amount, date) {
-        $(".grid").append("" +
-            "<div class=\"item\">\n" +
-            "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
-            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
-            "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick='this.parentNode.remove()'>\n" +
-            "    <div class=\"box-content\">\n" +
-            "        <div class=\"content-text\">\n" +
-            "            <h5 class=\"item-name\" style=\"color: #403f3f\">" + name + "</h5>\n" +
-            "            <h5 class=\"item-amount\" style=\"font-style: italic; color: #5a5959\">" + amount + " tilbage</h5>\n" +
-            "            <h5 class=\"item-dato\" style=\"font-style: italic; color: #fffdfd\">Udl.: " + date + "</h5>\n" +
-            "        </div>\n" +
-            "    </div>\n" +
-            "</div>");
+    window.removeItem = function(itemID) {
+        console.log(itemID)
+        $.ajax({
+            method: "DELETE",
+            url: "/fridge/delete-item/?item-ID=" + itemID,
+            success: function () {
+                console.log("Success");
+                loadItems();
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
     }
 
 
 
     /* -- Add food items modal -- */
     // Get the modal
-    var modal = document.getElementById("modal-window");
+    let modal = document.getElementById("modal-window");
 
     // Get the button that opens the modal
-    var btn = document.getElementById("modal-button");
+    let btn = document.getElementById("modal-button");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    let span = document.getElementsByClassName("close")[0];
 
     btn.addEventListener('click', openModal);
     span.addEventListener('click', closeModal);
@@ -243,10 +262,10 @@ $(function () {
             url: "/fridge/new-item/types",
             success: function (result) {
                 $("#type").html("");
-                console.log(JSON.stringify(result));
+                console.log("Success: " + JSON.stringify(result));
 
                 for (item in result) {
-                    console.log(result[item])
+                    //console.log(result[item])
                     if (item !== '0') {
                         $("#type").append("<option value=\"" + result[item][0] + "\">" + result[item][1] + "</option>");
                     }
@@ -263,24 +282,49 @@ $(function () {
     }
 
     //TODO make them connect - add food information to item and with "add-food-item" add item to grid list.
+    $(".add-food-item").click(function () {
+        let data = {
+            "item_name" : $("#food-name").val(),
+            "item_amount" : $("#amount").val(),
+            "item_type" : $("#type").val(),
+            "item_date" : $("#date").val()
+        };
+
+        console.log(data);
+
+        $.ajax({
+            method: "POST",
+            url: "/fridge/new-item",
+            data: data,
+            contentType: "application/json",
+            success: function () {
+                console.log("Success");
+                loadItems();
+                closeModal();
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
+    });
 
     //TODO make search bar work + button
 
-/* CALENDAR --------------------------------------------------------------------------
-    $("#select-date").oninput(function () {
-        var date = document.querySelector('input[type="date"]');
-        console.log(date);
+    /* CALENDAR --------------------------------------------------------------------------
+        $("#select-date").oninput(function () {
+            let date = document.querySelector('input[type="date"]');
+            console.log(date);
 
-        $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
-            "<div id=\"item-calendar\">\n" +
-            "<p id=\"item-name-calendar\">Tomat</p>\n" +
-            "<p id=\"item-amount-calendar\">2 tilbage</p>\n" +
-            "</div>\n"
-        );
+            $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
+                "<div id=\"item-calendar\">\n" +
+                "<p id=\"item-name-calendar\">Tomat</p>\n" +
+                "<p id=\"item-amount-calendar\">2 tilbage</p>\n" +
+                "</div>\n"
+            );
 
-    });
-    ---------------------------------------------------------------------------------
-*/
+        });
+        ---------------------------------------------------------------------------------
+    */
 
     //TODO Calendar
     //---------------------------->
@@ -288,7 +332,6 @@ $(function () {
     $("#slider-right").click(function () {
         $("#box-right").animate({width: 'toggle'}, 350);
     });
-    */
 
     $("#slider-left").click(function () {
         $("#box-left").animate({width: 'toggle'}, 350);
@@ -297,6 +340,7 @@ $(function () {
     document.getElementById('select-date').addEventListener('change', function() {
         console.log($('#select-date').val());
     });
+*/
     //------------------------------>
 
 
@@ -326,6 +370,5 @@ $(function () {
         }
     }
     */
-
 
 });

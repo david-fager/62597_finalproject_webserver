@@ -6,10 +6,12 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import common.ResponseObject;
 import common.rmi.SkeletonRMI;
 import io.javalin.Javalin;
+import io.javalin.http.InternalServerErrorResponse;
 import io.javalin.http.ServiceUnavailableResponse;
 import io.javalin.http.UnauthorizedResponse;
 import org.eclipse.jetty.http.HttpStatus;
 
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +45,26 @@ public class Server {
         if (sessions.get(uuid_cookie).getDatabase_uuid() == null) {
             System.out.println(getCurrentTime() + " User does not have a database uuid");
             throw new ServiceUnavailableResponse("User has no database uuid");
+        }
+        // Checking if the user is old in the database program
+        ResponseObject ro = null;
+        try {
+            ro = databaseServer.validateUUID(sessions.get(uuid_cookie).getDatabase_uuid());
+            if (ro == null) {
+                if (ro.getStatusCode() == 4) {
+                    System.out.println(getCurrentTime() + " Database requires re-login, it responded: " + ro.getStatusMessage());
+                    throw new UnauthorizedResponse("Unauthorized");
+                } else if (ro.getStatusCode() == 3) {
+                    System.out.println(getCurrentTime() + " Database did not recognize the user, it responded: " + ro.getStatusMessage());
+                    throw new UnauthorizedResponse("Unauthorized");
+                } else if (ro.getStatusCode() != 0) {
+                    System.out.println(getCurrentTime() + " Database had an error, it responded: " + ro.getStatusMessage());
+                    throw new InternalServerErrorResponse("Database had an error");
+                }
+            }
+        } catch (RemoteException e) {
+            System.out.println(getCurrentTime() + " Validation threw exception: " + e.getMessage());
+            throw new UnauthorizedResponse("Unauthorized");
         }
     }
 
@@ -105,6 +127,7 @@ public class Server {
                             System.out.println(getCurrentTime() + " Unable to login to the database server, error: " + ro.getStatusCode() + " " + ro.getStatusMessage());
                         }
 
+                        userProfile.setIp(context.ip());
                         sessions.put(uuid_cookie, userProfile);
                         System.out.println(getCurrentTime() + " User logged in and got cookie uuid: " + uuid_cookie + " and db uuid:" + sessions.get(uuid_cookie).toString());
                         context.cookieStore(UUID_COOKIE_NAME, uuid_cookie);
@@ -158,6 +181,7 @@ public class Server {
             if (ro.getStatusCode() == 0) {
                 int fridgeID = Integer.parseInt(ro.getResponseArraylist().get(1)[1]);
                 System.out.println(getCurrentTime() + " Found fridge ID: " + fridgeID);
+                sessions.get(uuid_cookie).setFridgeID(fridgeID);
 
                 ro = databaseServer.getFridgeContents(sessions.get(uuid_cookie).database_uuid, fridgeID);
                 if (ro.getStatusCode() == 0) {
@@ -166,6 +190,28 @@ public class Server {
                     context.json(ro.getResponseArraylist());
                 }
             }
+        });
+
+        app.post("/fridge/new-item", context -> {
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
+
+            String itemName = context.formParamMap().get("item_name").get(0);
+            int itemAmount = Integer.parseInt(context.formParamMap().get("item_amount").get(0));
+            int itemType = Integer.parseInt(context.formParamMap().get("item_type").get(0));
+            String itemDate = context.formParamMap().get("item_date").get(0);
+
+            ResponseObject ro1 = databaseServer.createItem(sessions.get(uuid_cookie).getDatabase_uuid(), itemName, itemType);
+            if (ro1 != null && ro1.getStatusCode() == 0) {
+                ResponseObject ro2 = databaseServer.createFridgeRow(
+                        sessions.get(uuid_cookie).getDatabase_uuid(), sessions.get(uuid_cookie).fridgeID,
+                        Integer.parseInt(ro1.getResponseString()), itemDate, itemAmount);
+                if (ro2 != null && ro2.getStatusCode() == 0) {
+                    context.status(HttpStatus.CREATED_201);
+                    return;
+                }
+            }
+            throw new InternalServerErrorResponse("Failed to create the user's new item");
         });
 
         app.get("/fridge/new-item/types", context -> {
@@ -180,12 +226,33 @@ public class Server {
             }
         });
 
+        app.delete("/fridge/delete-item", context -> {
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
+
+            int itemID = Integer.parseInt(context.queryParam("item-ID"));
+            ResponseObject ro1 = databaseServer.deleteFridgeRow(sessions.get(uuid_cookie).getDatabase_uuid(),sessions.get(uuid_cookie).fridgeID,itemID);
+            if (ro1 != null && ro1.getStatusCode() == 0) {
+                ResponseObject ro2 = databaseServer.deleteItem(sessions.get(uuid_cookie).getDatabase_uuid(), itemID);
+                if (ro2 != null && ro2.getStatusCode() == 0) {
+                    context.status(HttpStatus.OK_200);
+                    return;
+                }
+            }
+            throw new InternalServerErrorResponse("Failed to create the user's new item");
+        });
+
         app.get("/user/info", context -> {
             String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
             validateUser(uuid_cookie);
 
-
-            context.json(sessions.get(uuid_cookie));
+            // Copying the session userprofile info, to mask the actual database uuid6
+            UserProfile up = new UserProfile();
+            up.setJavalin_uuid(sessions.get(uuid_cookie).getJavalin_uuid());
+            up.setDatabase_uuid("**********");
+            up.setUsername(sessions.get(uuid_cookie).getUsername());
+            up.setIp(sessions.get(uuid_cookie).getIp());
+            context.json(up);
         });
 
         app.put("/user/change-password", context -> {
