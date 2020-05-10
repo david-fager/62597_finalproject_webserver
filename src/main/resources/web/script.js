@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    let userItems;
+    let userItems = null;
 
     // Ensures the first view for the user is the login page or the fridge page if the user is recognized
     $.ajax({
@@ -191,13 +191,82 @@ $(document).ready(function() {
         });
     }
 
+    $("#search-field").on('input', function () {
+        term = $("#search-field").val();
+        if (term === "") {
+            //console.log("Loading all")
+            loadItems();
+            return;
+        }
+
+        //console.log("Searching items");
+        $(".grid").html("");
+
+        for (item in userItems) {
+            //console.log(userItems[item])
+            if (item !== '0') {
+                if (userItems[item][0].toUpperCase().indexOf(term.toUpperCase()) !== -1) {
+                    showItem(userItems[item]);
+                }
+                if (userItems[item][1].toUpperCase().indexOf(term.toUpperCase()) !== -1) {
+                    showItem(userItems[item]);
+                }
+                if (userItems[item][3].toUpperCase().indexOf(term.toUpperCase()) !== -1) {
+                    showItem(userItems[item]);
+                }
+                if (userItems[item][6].toUpperCase().indexOf(term.toUpperCase()) !== -1) {
+                    showItem(userItems[item]);
+                }
+            }
+        }
+    })
+
     /* -- grid food items -- */
     function showItem(item) {
+
+        let expiration = item[1].split("-");
+
+        // The code below, until comment: 'end snippet', is taken from the stackoverflow.com answer by user
+        // 'Samuel Meddows' on Feb. 8. 2011 at the following link: https://stackoverflow.com/a/4929629
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = String(today.getFullYear());
+        // end snippet
+
+        /*
+        console.log(yyyy + " === " + expiration[0] + " && " + mm + " === " + expiration[1] + " && " + dd + " > " + expiration[2]);
+        console.log(yyyy === expiration[0]);
+        console.log(mm === expiration[1]);
+        console.log(dd > expiration[2]);
+        console.log(yyyy === expiration[0] && mm === expiration[1] && dd > expiration[2]);
+        */
+
+        let status;
+        if (yyyy > expiration[0]) {
+            // If current year is bigger than expiration year
+            status = "    <img class=\"box-status\" src=\"images/red.png\">\n";
+        } else if (yyyy === expiration[0] && mm > expiration[1]) {
+            // If current year is same as expiration but current month is bigger than expiration month
+            status = "    <img class=\"box-status\" src=\"images/red.png\">\n";
+        } else if (yyyy === expiration[0] && mm === expiration[1] && dd > expiration[2]) {
+            // If current year and month is same as expiration but current date is bigger than expiration date
+            status = "    <img class=\"box-status\" src=\"images/red.png\">\n";
+        } else if (yyyy === expiration[0] && mm === expiration[1] && (expiration[2] - dd) <= 1) {
+            // If current year and month is same as expiration but the difference between expiration date and current date is 1 or less
+            status = "    <img class=\"box-status\" src=\"images/red.png\">\n";
+        } else if (yyyy === expiration[0] && mm === expiration[1] && (expiration[2] - dd) <= 3) {
+            // If current year and month is same as expiration but the difference between expiration date and current date is 3 or less
+            status = "    <img class=\"box-status\" src=\"images/yellow.png\">\n";
+        } else {
+            // If the date is any other, the status must be good
+            status = "    <img class=\"box-status\" src=\"images/green.png\">\n";
+        }
 
         $(".grid").append("" +
             "<div class=\"item\">\n" +
             "    <img class=\"box-visual\" src=\"images/box.png\">\n" +
-            "    <img class=\"box-status\" src=\"images/green.png\">\n" +
+            status +
             "    <img class=\"trash-icon\" src=\"images/trash_icon.png\" onclick=\"removeItem("+ item[2] +")\">\n" +
             "    <div class=\"box-content\">\n" +
             "        <div class=\"content-text\">\n" +

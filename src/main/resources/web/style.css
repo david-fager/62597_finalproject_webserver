@@ -183,7 +183,7 @@ body {
     text-align: center;
 }
 
-.fridge .middle .top #text{
+.fridge .middle .top #search-field{
     padding-left: 10px;
 }
 
@@ -220,10 +220,6 @@ body {
 
 .fridge .user-dropdown .dropdown-contains #logud-button {
     color: #c9cacb;
-}
-
-.fridge .user-dropdown .dropdown-contains #logud-button:hover {
-    color: #f1f2f3;
 }
 
 .fridge .user-dropdown .dropdown-contains .show {

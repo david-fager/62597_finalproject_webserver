@@ -26,8 +26,8 @@
                 <label>Adgangskode</label>
                 <input type="password" id="field-password">
                 <h6 id="open-forgot-password">Glemt adgangskode?</h6>
+                <button id="button-login" type="button">Log på</button>
             </form>
-            <button id="button-login">Log på</button>
         </div>
     </div>
 
@@ -72,8 +72,8 @@
         <div class="top"> <!-- Contains logo and search -->
             <img src="images/logo.png" height="60">
             <div>
-                <input type="text" placeholder="..." name="search" id="text">
-                <button type="submit">Søg<i class="searching"></i></button>
+                <input type="text" placeholder="Søg" name="search" id="search-field">
+                <!-- <button type="button" id="search-button">Søg<i class="searching"></i></button> -->
                 <button id="modal-button">Tilføj fødevare</button>
                 <!-- <button id="button-new-box">ny boks</button> -->
             </div>
@@ -91,7 +91,7 @@
             <br>
             <br>
             <label>Antal:</label>
-            <input type="number" id="amount" min="0" step="1">
+            <input type="number" id="amount">
             <label>Type:</label>
             <select id="type">
             </select>
@@ -143,7 +143,7 @@
             <h5 id="change-password-error" style="color: red; font-size: x-small; text-align: center;"></h5>
             <form>
                 <label>Skriv gamle kode:</label>
-                <input type="text" name="oldPassword" id="oldpassword" required>
+                <input type="password" name="oldPassword" id="oldpassword" required>
                 <br>
                 <br>
                 <label>Skriv ny kode:</label>
@@ -151,7 +151,7 @@
                 <input type="password" name="newPassword" id="newpassword" required>
                 <br>
                 <br>
-                <button class="change-password">Ændre</button>
+                <button class="change-password" type="button">Ændre</button>
                 <br>
                 <br>
             </form>
