@@ -20,11 +20,13 @@
         <div class="login-text-container">
             <h3>Velkommen</h3>
             <h5 id="login-error" style="color: red; font-size: x-small; text-align: center;"></h5>
-            <label>Brugernavn</label>
-            <input type="text" id="field-brugernavn">
-            <label>Adgangskode</label>
-            <input type="password" id="field-password">
-            <h6 id="open-forgot-password">Glemt adgangskode?</h6>
+            <form>
+                <label>Brugernavn</label>
+                <input type="text" id="field-brugernavn">
+                <label>Adgangskode</label>
+                <input type="password" id="field-password">
+                <h6 id="open-forgot-password">Glemt adgangskode?</h6>
+            </form>
             <button id="button-login">Log på</button>
         </div>
     </div>
@@ -137,8 +139,9 @@
         <br>
         <div class="settings">
             <h3>Settings</h3>
-            <form action="javascript:changePassword()">
-                <h5>Skift adgangskode</h5>
+            <h5>Skift adgangskode</h5>
+            <h5 id="change-password-error" style="color: red; font-size: x-small; text-align: center;"></h5>
+            <form>
                 <label>Skriv gamle kode:</label>
                 <input type="text" name="oldPassword" id="oldpassword" required>
                 <br>

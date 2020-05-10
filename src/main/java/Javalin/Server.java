@@ -256,7 +256,19 @@ public class Server {
         });
 
         app.put("/user/change-password", context -> {
-            // TODO: Kalde på brugerautorisation for at skifte brugerens password
+            String uuid_cookie = context.cookieStore(UUID_COOKIE_NAME);
+            validateUser(uuid_cookie);
+
+            String oldpassword = context.queryParam("oldpassword");
+            String newpassword = context.queryParam("newpassword");
+
+            try {
+                javabogServer.ændrAdgangskode(sessions.get(uuid_cookie).getUsername(),oldpassword,newpassword);
+                context.status(HttpStatus.OK_200);
+            } catch (Exception e) {
+                System.out.println(getCurrentTime() + " Change password threw exception: " + e.getMessage());
+                throw new InternalServerErrorResponse("Javabog threw exception.");
+            }
         });
 
 

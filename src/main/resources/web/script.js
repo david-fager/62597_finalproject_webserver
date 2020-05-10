@@ -43,7 +43,7 @@ $(document).ready(function() {
     }
 
     // What happens when you press the back button in the browser
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         //console.log(history.state.view)
         if (history.state.view !== null) {
             changeView(history.state.view);
@@ -65,10 +65,12 @@ $(document).ready(function() {
         });
     }
 
+
     /* ---- page login ---- */
     $('#button-login').click(function () {
         let queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val();
         console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams);
+        $("#login-error").html("");
 
         $.ajax({
             method: "POST",
@@ -83,7 +85,6 @@ $(document).ready(function() {
             }
         });
     });
-
 
 
     /* -- Forgot password modal -- */
@@ -122,7 +123,6 @@ $(document).ready(function() {
     /* ---- page management ---- */
 
 
-
     /* -- Dropdown -- */
     //TODO when user logged in, set "dropdown-button" to be the users username
     $(".dropdown-button").click(function () {
@@ -131,7 +131,8 @@ $(document).ready(function() {
     });
 
     $("#logud-button").click(function () {
-
+        document.cookie = "javalin-cookie-store=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "./";
     });
 
     $("#settings-button").click(function () {
@@ -139,25 +140,30 @@ $(document).ready(function() {
     });
 
 
-
     /* - Inside settings - */
     $(".change-password").click(function () {
-        //TODO change password
-        let oldpassword = document.getElementById("oldpassword").value;
-        let newpassword = document.getElementById("newpassword").value;
-        // TODO : fetch('/account/changePassword/' + oldpassword + "?newPassword=" + newpassword).then((response) => response.status).then(function (data) {
-        console.log(data);
-        if (data === 202) {
-            window.location.href = '/./';
-        } else if (data === 503) {
-            <!-- fejl! -->
-        }
+        console.log("Changing password")
+        $("#change-password-error").html("");
+
+        var query = "?oldpassword=" + $("#oldpassword").val() + "&newpassword=" + $("#newpassword").val();
+
+        $.ajax({
+            method: "PUT",
+            url: "/user/change-password/" + query,
+            success: function () {
+                console.log("Success");
+                changeView("fridge");
+            },
+            error: function () {
+                console.log("Error");
+                $("#change-password-error").html("Fejl, kunne ikke ændre kodeord.");
+            }
+        });
     });
 
     $("#annuller").click(function () {
         changeView("fridge");
     });
-
 
 
     function loadItems() {
@@ -238,7 +244,6 @@ $(document).ready(function() {
             }
         });
     }
-
 
 
     /* -- Add food items modal -- */
@@ -337,18 +342,14 @@ $(document).ready(function() {
         $("#box-left").animate({width: 'toggle'}, 350);
     });
 
-    document.getElementById('select-date').addEventListener('change', function() {
+    document.getElementById('select-date').addEventListener('change', function () {
         console.log($('#select-date').val());
     });
 */
     //------------------------------>
 
 
-
-
     //----------------------------------------------------End
-
-
 
 
     /*
