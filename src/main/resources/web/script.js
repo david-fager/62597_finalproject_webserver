@@ -389,7 +389,7 @@ $(document).ready(function() {
             url: "/fridge/new-item/types",
             success: function (result) {
                 console.log(getCurrentTime() + "Received success object: " + JSON.stringify(result));
-                $("#type").val("");
+                $("#type").html("");
 
                 for (item in result) {
                     //console.log(getCurrentTime() + result[item])
