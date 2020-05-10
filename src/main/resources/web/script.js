@@ -1,17 +1,26 @@
 $(document).ready(function() {
 
+    let today1;
+    function getCurrentTime() {
+        today1 = new Date();
+        return "[" + String(today1.getDate()).padStart(2, '0') + "-" + String(today1.getMonth() + 1).padStart(2, '0')
+            + "-" + today1.getFullYear() + " " + String(today1.getHours()).padStart(2, '0') + ":" +
+            String(today1.getMinutes()).padStart(2, '0') + ":" + String(today1.getSeconds()).padStart(2, '0') + "] ";
+    }
+    
     let userItems = null;
 
     // Ensures the first view for the user is the login page or the fridge page if the user is recognized
+    console.log(getCurrentTime() + "Sending: " + "POST" + " on url: " + "/login/returning");
     $.ajax({
         method: "POST",
         url: "/login/returning",
-        success: function () {
-            console.log("Success");
+        success: function (res1, res2, res3) {
+            console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
             changeView('fridge');
         },
-        error: function () {
-            console.log("Error");
+        error: function (result) {
+            console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
             changeView('login');
         }
     });
@@ -34,33 +43,39 @@ $(document).ready(function() {
 
         // If login or fridge, then dont allow top pop the state, aka. just replace it, otherwise let state be pop-able
         if (view === "login" || view === "fridge") {
-            history.replaceState({view}, "", "/" + view)
-            //console.log("Replaced state " + history.state.view)
+            history.replaceState({view}, "", "/" + view);
+            console.log(getCurrentTime() + "Changed view to " + view + " & replaced state " + history.state.view);
         } else if (window.location.pathname !== "/" + view) {
-            history.pushState({view}, "", "/" + view)
-            //console.log("Pushed state " + history.state.view)
+            history.pushState({view}, "", "/" + view);
+            console.log(getCurrentTime() + "Changed view to " + view + " & pushed state " + history.state.view);
+        } else {
+            console.log(getCurrentTime() + "Changed view to " + view);
         }
     }
 
     // What happens when you press the back button in the browser
     window.onpopstate = function () {
-        //console.log(history.state.view)
+        //console.log(getCurrentTime() + history.state.view)
         if (history.state.view !== null) {
             changeView(history.state.view);
         }
     };
 
     function getUserInfo() {
+        console.log(getCurrentTime() + "Sending: " + "GET" + " on url: " + "/user/info");
         $.ajax({
             method: "GET",
             url: "/user/info",
             success: function (result) {
-                console.log("Success");
-                console.log(result);
+                console.log(getCurrentTime() + "Received success object: " + result);
                 $(".dropdown-button").html(result.username + " &#9660");
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     }
@@ -68,19 +83,21 @@ $(document).ready(function() {
 
     /* ---- page login ---- */
     $('#button-login').click(function () {
+        console.log(getCurrentTime() + "Sending: " + "POST" + " on url: " + "/login");
+
         let queryparams = "?username=" + $("#field-brugernavn").val() + "&password=" + $("#field-password").val();
-        console.log("POSTING TO LOGIN, WITH PARAMS: " + queryparams);
+
         $("#login-error").html("");
 
         $.ajax({
             method: "POST",
             url: "/login/" + queryparams,
-            success: function () {
-                console.log("Success");
+            success: function (res1, res2, res3) {
+                console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
                 changeView("fridge");
             },
             error: function (result) {
-                console.log("Error " + JSON.stringify(result));
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
                 $("#login-error").html("Forkert brugernavn eller adgangskode.");
             }
         });
@@ -101,19 +118,28 @@ $(document).ready(function() {
 
     function closeForgotModal() {
         forgot_modal.style.display = 'none';
+        $("#mail-success").html("");
+        $("#email").val("");
     }
 
     //TODO get username, and send email via "send" button
     $("#button-send-email").click(function () {
+        console.log(getCurrentTime() + "Sending: " + "POST" + " on url: " + "/login/forgot");
+
+        $("#mail-success").html("");
         let username = $("#email").val();
+
         $.ajax({
             method: "POST",
             url: "/login/forgot/?username=" + username,
-            success: function () {
-                console.log("Success");
+            success: function (res1, res2, res3) {
+                console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
+                $("#mail-success").html("Mail sendt");
+                $("#email").val("");
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                $("#mail-success").html("Fejl: mail ikke sendt");
             }
         });
     });
@@ -131,9 +157,13 @@ $(document).ready(function() {
     });
 
     $("#logud-button").click(function () {
+        logout();
+    });
+
+    function logout() {
         document.cookie = "javalin-cookie-store=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.href = "./";
-    });
+    }
 
     $("#settings-button").click(function () {
         changeView('user');
@@ -142,7 +172,8 @@ $(document).ready(function() {
 
     /* - Inside settings - */
     $(".change-password").click(function () {
-        console.log("Changing password")
+        console.log(getCurrentTime() + "Sending: " + "PUT" + " on url: " + "/user/change-password");
+
         $("#change-password-error").html("");
 
         var query = "?oldpassword=" + $("#oldpassword").val() + "&newpassword=" + $("#newpassword").val();
@@ -150,13 +181,17 @@ $(document).ready(function() {
         $.ajax({
             method: "PUT",
             url: "/user/change-password/" + query,
-            success: function () {
-                console.log("Success");
+            success: function (res1, res2, res3) {
+                console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
                 changeView("fridge");
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
                 $("#change-password-error").html("Fejl, kunne ikke ændre kodeord.");
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     });
@@ -167,26 +202,31 @@ $(document).ready(function() {
 
 
     function loadItems() {
-        console.log("Loading items");
+        console.log(getCurrentTime() + "Sending: " + "GET" + " on url: " + "/fridge/items");
+
         $(".grid").html("");
 
         $.ajax({
             method: "GET",
             url: "/fridge/items",
             success: function (result) {
-                console.log("Success: " + JSON.stringify(result));
+                console.log(getCurrentTime() + "Received success object: " + JSON.stringify(result));
                 userItems = result;
 
                 for (item in result) {
-                    //console.log(result[item])
+                    //console.log(getCurrentTime() + result[item])
                     if (item !== '0') {
                         showItem(result[item]);
                     }
                 }
 
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     }
@@ -194,16 +234,16 @@ $(document).ready(function() {
     $("#search-field").on('input', function () {
         term = $("#search-field").val();
         if (term === "") {
-            //console.log("Loading all")
+            //console.log(getCurrentTime() + "Loading all")
             loadItems();
             return;
         }
 
-        //console.log("Searching items");
+        //console.log(getCurrentTime() + "Searching items");
         $(".grid").html("");
 
         for (item in userItems) {
-            //console.log(userItems[item])
+            //console.log(getCurrentTime() + userItems[item])
             if (item !== '0') {
                 if (userItems[item][0].toUpperCase().indexOf(term.toUpperCase()) !== -1) {
                     showItem(userItems[item]);
@@ -235,11 +275,11 @@ $(document).ready(function() {
         // end snippet
 
         /*
-        console.log(yyyy + " === " + expiration[0] + " && " + mm + " === " + expiration[1] + " && " + dd + " > " + expiration[2]);
-        console.log(yyyy === expiration[0]);
-        console.log(mm === expiration[1]);
-        console.log(dd > expiration[2]);
-        console.log(yyyy === expiration[0] && mm === expiration[1] && dd > expiration[2]);
+        console.log(getCurrentTime() + yyyy + " === " + expiration[0] + " && " + mm + " === " + expiration[1] + " && " + dd + " > " + expiration[2]);
+        console.log(getCurrentTime() + yyyy === expiration[0]);
+        console.log(getCurrentTime() + mm === expiration[1]);
+        console.log(getCurrentTime() + dd > expiration[2]);
+        console.log(getCurrentTime() + yyyy === expiration[0] && mm === expiration[1] && dd > expiration[2]);
         */
 
         let status;
@@ -282,7 +322,7 @@ $(document).ready(function() {
 
 
     $("#button-new-box").click(function () {
-        console.log("Tilføjet boks!")
+        //console.log(getCurrentTime() + "Tilføjet boks!")
 
         $(".grid").append("" +
             "<div class=\"item\">\n" +
@@ -300,16 +340,22 @@ $(document).ready(function() {
     });
 
     window.removeItem = function(itemID) {
-        console.log(itemID)
+        console.log(getCurrentTime() + "Sending: " + "DELETE" + " on url: " + "/fridge/delete-item");
+
         $.ajax({
             method: "DELETE",
             url: "/fridge/delete-item/?item-ID=" + itemID,
-            success: function () {
-                console.log("Success");
+            success: function (res1, res2, res3) {
+                console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
                 loadItems();
+                $("#search-field").val("");
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     }
@@ -331,22 +377,33 @@ $(document).ready(function() {
     function openModal() {
         modal.style.display = 'block';
 
+        console.log(getCurrentTime() + "Sending: " + "GET" + " on url: " + "/fridge/new-item/types");
+
+        $("#food-name").val("");
+        $("#amount").val("");
+        $("#type").val("");
+        $("#date").val("");
+
         $.ajax({
             method: "GET",
             url: "/fridge/new-item/types",
             success: function (result) {
-                $("#type").html("");
-                console.log("Success: " + JSON.stringify(result));
+                console.log(getCurrentTime() + "Received success object: " + JSON.stringify(result));
+                $("#type").val("");
 
                 for (item in result) {
-                    //console.log(result[item])
+                    //console.log(getCurrentTime() + result[item])
                     if (item !== '0') {
                         $("#type").append("<option value=\"" + result[item][0] + "\">" + result[item][1] + "</option>");
                     }
                 }
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     }
@@ -364,20 +421,24 @@ $(document).ready(function() {
             "item_date" : $("#date").val()
         };
 
-        console.log(data);
+        console.log(getCurrentTime() + "Sending: " + "POST" + " on url: " + "/fridge/new-item with JSON data: " + data);
 
         $.ajax({
             method: "POST",
             url: "/fridge/new-item",
             data: data,
             contentType: "application/json",
-            success: function () {
-                console.log("Success");
+            success: function (res1, res2, res3) {
+                console.log(getCurrentTime() + "Received success code: " + res3.status + " " + res3.statusText);
                 loadItems();
                 closeModal();
             },
-            error: function () {
-                console.log("Error");
+            error: function (result) {
+                console.log(getCurrentTime() + "Received error code: " + result.status + " " + result.statusText);
+                if (result.status === 401) {
+                    console.log(getCurrentTime() + "Re-login required")
+                    logout();
+                }
             }
         });
     });
@@ -387,7 +448,7 @@ $(document).ready(function() {
     /* CALENDAR --------------------------------------------------------------------------
         $("#select-date").oninput(function () {
             let date = document.querySelector('input[type="date"]');
-            console.log(date);
+            console.log(getCurrentTime() + date);
 
             $(".date-grid").append("" + "<h3 class=\"selected-date\">1/1/11</h3>\n" +
                 "<div id=\"item-calendar\">\n" +
@@ -412,7 +473,7 @@ $(document).ready(function() {
     });
 
     document.getElementById('select-date').addEventListener('change', function () {
-        console.log($('#select-date').val());
+        console.log(getCurrentTime() + $('#select-date').val());
     });
 */
     //------------------------------>
