@@ -16,7 +16,7 @@ public class Run {
             System.out.println(df.format(calendar.getTimeInMillis()) + " Starting server");
 
             // Connecting to the database program
-            SkeletonRMI databaseServer = (SkeletonRMI) Naming.lookup("rmi://localhost:9921/my_fridge_rmi_remote");
+            SkeletonRMI databaseServer = (SkeletonRMI) Naming.lookup("rmi://dist.saluton.dk:9921/my_fridge_rmi_remote");
 
             // Connecting to the user authentication module
             Brugeradmin javabogServer = (Brugeradmin) Naming.lookup("rmi://javabog.dk/brugeradmin");
